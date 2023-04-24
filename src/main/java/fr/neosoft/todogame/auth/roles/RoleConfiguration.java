@@ -12,16 +12,16 @@ import java.util.List;
 @Configuration
 public class RoleConfiguration {
 
-    public static Role MANAGER = null;
+    public static Role ADMIN = null;
     public static Role PERSONNE = null;
 
     @Autowired
     private void init(RoleRepository roleRepository, AuthService service, PersonneRepository personneRepository){
-        if(roleRepository.findByAuthority("MANAGER").isEmpty()){
-            MANAGER = roleRepository.save(new Role(1L, "MANAGER"));
+        if(roleRepository.findByAuthority("ADMIN").isEmpty()){
+            ADMIN = roleRepository.save(new Role(1L, "ADMIN"));
             PERSONNE = roleRepository.save(new Role(2L, "PERSONNE"));
-            Personne manager = service.register(new RegisterRequestDto("admin", "admin", "admin", "admin"));
-            manager.setRoles(List.of(MANAGER));
+            Personne manager = service.register(new RegisterRequestDto("admin", "admin", "admin@yopmail.com", "admin", "admin"));
+            manager.setRoles(List.of(ADMIN));
             manager.setRoles(List.of(PERSONNE));
             personneRepository.save(manager);
         }
