@@ -1,4 +1,4 @@
-package fr.neosoft.todogame.categorie;
+package fr.neosoft.todogame.groupe;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Categorie {
+public class Groupe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

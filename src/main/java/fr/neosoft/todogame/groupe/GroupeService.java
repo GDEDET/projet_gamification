@@ -1,12 +1,12 @@
-package fr.neosoft.todogame.categorie;
+package fr.neosoft.todogame.groupe;
 
 import fr.neosoft.todogame.utils.CRUDService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategorieService extends CRUDService<Categorie> {
-    public CategorieService(JpaRepository<Categorie, Long> repository) {
+public class GroupeService extends CRUDService<Groupe> {
+    public GroupeService(JpaRepository<Groupe, Long> repository) {
         super(repository);
     }
 }
