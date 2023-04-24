@@ -1,5 +1,6 @@
 package fr.neosoft.todogame.utils;
 
+import fr.neosoft.todogame.exceptions.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.lang.reflect.ParameterizedType;
