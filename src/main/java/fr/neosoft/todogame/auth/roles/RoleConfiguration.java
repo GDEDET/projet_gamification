@@ -22,6 +22,7 @@ public class RoleConfiguration {
             PERSONNE = roleRepository.save(new Role(2L, "PERSONNE"));
             Personne manager = service.register(new RegisterRequestDto("admin", "admin", "admin", "admin"));
             manager.setRoles(List.of(MANAGER));
+            manager.setRoles(List.of(PERSONNE));
             personneRepository.save(manager);
         }
     }
