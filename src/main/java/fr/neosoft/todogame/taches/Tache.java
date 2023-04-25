@@ -1,5 +1,6 @@
 package fr.neosoft.todogame.taches;
 
+import fr.neosoft.todogame.personnes.Personne;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,4 +38,8 @@ public class Tache {
 
     @Column(name = "nb_points", nullable = false)
     private int nbPoints;
+
+    @ManyToOne
+    @JoinColumn(name = "personne_id", nullable = false)
+    private Personne personne;
 }

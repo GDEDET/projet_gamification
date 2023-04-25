@@ -100,4 +100,18 @@ public class TacheController {
     public void deleteById(@Parameter(description = "Id de la tâche à supprimer") @PathVariable Long id) {
         gestionTacheInterface.deleteById(id);
     }
+
+    @Operation(summary = "Valider une tâche")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tâche validée",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Tache.class))}),
+            @ApiResponse(responseCode = "400", description = "Id fourni invalide",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Tâche non trouvée")
+    })
+    @PutMapping("terminer/{id}")
+    public Tache terminerTache(@Parameter(description = "Id de la tâche à terminer") @PathVariable Long id) {
+        return gestionTacheInterface.terminerTache(id);
+    }
 }

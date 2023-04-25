@@ -23,4 +23,6 @@ public interface GestionTacheInterface extends CRUDInterface<Tache> {
      * @return la liste des tâches de l'utilisateur
      */
     Iterable<Tache> findAllByUser(Long idUser);
+
+    Tache terminerTache(Long id);
 }
