@@ -2,6 +2,8 @@ package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.roles.Role;
 import fr.neosoft.todogame.auth.roles.RoleRepository;
+import fr.neosoft.todogame.niveaux.Niveau;
+import fr.neosoft.todogame.niveaux.NiveauRepository;
 import fr.neosoft.todogame.utils.CRUDService;
 import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +13,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonneService extends CRUDService<Personne> {
+public class PersonneService extends CRUDService<Personne> implements PersonneInterface {
 
     private final PersonneRepository personneRepository;
 
     private final RoleRepository roleRepository;
 
+	private final NiveauRepository niveauRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public PersonneService(PersonneRepository personneRepository, RoleRepository roleRepository) {
+    public PersonneService(
+			PersonneRepository personneRepository,
+			RoleRepository roleRepository,
+			NiveauRepository niveauRepository
+	) {
         super(personneRepository);
         this.personneRepository = personneRepository;
         this.roleRepository = roleRepository;
+		this.niveauRepository = niveauRepository;
     }
 
     /**
@@ -42,7 +51,32 @@ public class PersonneService extends CRUDService<Personne> {
         personne.setMotDePasse(password);
         personne.setNom(personneDto.getNom());
         personne.setPrenom(personneDto.getPrenom());
-        personne.setNbPoints(0);
         return this.personneRepository.save(personne);
     }
+	/**
+	 * Permet de retourner le niveau de la personne ayant l'id passer en paramètre
+	 * @param personne
+	 * @return le niveau de la personne
+	 */
+	private Integer niveauPersonne(Personne personne) {
+		Integer nbPointsPersonne = personne.getNbPoints();
+		Integer niveauPersonne = this.niveauRepository.findByNbPoints(nbPointsPersonne);
+
+		return niveauPersonne;
+	}
+
+
+	private PersonneNiveauDto personneToPersonneNiveauDto(Personne personne) {
+		String nomUtilisateur = personne.getNomUtilisateur();
+		Integer nbPoints = personne.getNbPoints();
+		Integer niveauPersonne = this.niveauPersonne(personne);
+
+		return new PersonneNiveauDto(nomUtilisateur, nbPoints, niveauPersonne);
+	}
+
+	@Override
+	public PersonneNiveauDto infosNiveauPersonne(Long idPersonne) {
+		Personne personne = this.findById(idPersonne);
+		return this.personneToPersonneNiveauDto(personne);
+	}
 }
