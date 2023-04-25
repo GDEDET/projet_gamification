@@ -3,6 +3,8 @@ package fr.neosoft.todogame.taches;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -15,4 +17,24 @@ public class Tache {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Column(name = "date_creation", nullable = true)
+    private Date dateEcheance;
+
+    @Column(name = "date_realisation", nullable = true)
+    private Date dateRealisation;
+
+    @Column(name = "priorite", nullable = false)
+    private Priorite priorite;
+
+    @Column(name = "difficulte", nullable = false)
+    private Difficulte difficulte;
+
+    @Column(name = "statut", nullable = false)
+    private Statut statut;
+
+    @Column(name = "nb_points", nullable = false)
+    private int nbPoints;
 }
