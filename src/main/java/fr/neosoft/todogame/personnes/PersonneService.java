@@ -9,6 +9,8 @@ import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,4 +63,38 @@ public class PersonneService extends CRUDService<Personne> {
 		return niveauPersonne;
 	}
 
+
+    public Iterable<Personne> getClassementParPoints(){
+        return this.personneRepository.findAllByOrderByNbPointsDesc();
+    }
+
+    /**
+     * Permet de récupérer le classement des personnes par niveau
+     * Récupère la liste des personnes par points décroissants
+     * Pour chaque personne, on récupère son niveau
+     *
+     * @return la liste des personnes avec leur nom d'utilisateur, nombre de points et niveau (PersonneDTO)
+     */
+    public ArrayList<PersonneDto> getClassementParNiveaux() {
+        Iterable<Personne> listPersonnesParPointsDesc = this.personneRepository.findAllByOrderByNbPointsDesc();
+        ArrayList<PersonneDto> listPersonnesDto = new ArrayList<>();
+        for (Personne personne : listPersonnesParPointsDesc) {
+            listPersonnesDto.add(new PersonneDto(
+                    personne.getNomUtilisateur(),
+                    personne.getNbPoints(),
+                    this.niveauPersonne(personne.getId()).getNiveau()
+            ));
+        }
+
+        return listPersonnesDto;
+    }
+
+    /**
+     * Permet de récupérer le classement des personnes par nombre de tâches réalisées (statut : TERMINE)
+     *
+     * @return La liste des personnes par nombre décroissant de tâches terminées
+     */
+    public List<Personne> getClassementParRealisations() {
+        return this.personneRepository.findAllByOrderByTachesRealiseesDesc();
+    }
 }

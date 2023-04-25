@@ -87,4 +87,34 @@ public class PersonneController {
     public void deleteById(@Parameter(description = "Id de la personne à supprimer") @PathVariable Long id) {
         personneService.deleteById(id);
     }
+
+    @Operation(summary = "Récupérer toutes les personnes triées par ordre décroissant de leur nombre de points")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Personnes trouvées et triées dans l'ordre décroissant de leur nombre de points",
+                    content = @Content( array = @ArraySchema(schema = @Schema(implementation = Personne.class))))
+    })
+    @GetMapping("classement/points")
+    public Iterable<Personne> getClassementParPoints() {
+        return personneService.getClassementParPoints();
+    }
+
+    @Operation(summary = "Récupérer toutes les personnes triées par ordre décroissant de leur niveau")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Personnes trouvées et triées dans l'ordre décroissant de leur niveau",
+                    content = @Content( array = @ArraySchema(schema = @Schema(implementation = Personne.class))))
+    })
+    @GetMapping("classement/niveaux")
+    public List<PersonneDto> getClassementParNiveau() {
+        return personneService.getClassementParNiveaux();
+    }
+
+    @Operation(summary = "Récupérer toutes les personnes triées par ordre décroissant de leur nombre de tâches réalisées")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Personnes trouvées et triées dans l'ordre décroissant de leur nombre de tâches réalisées",
+                    content = @Content( array = @ArraySchema(schema = @Schema(implementation = Personne.class))))
+    })
+    @GetMapping("classement/realisations")
+    public List<Personne> getClassementParRealisation() {
+        return personneService.getClassementParRealisations();
+    }
 }
