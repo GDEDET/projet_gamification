@@ -54,11 +54,37 @@ public class PersonneService extends CRUDService<Personne> {
      */
     public Personne findByNomUtilisateur(String nomUtilisateur) {
         Personne personneRecherche = this.personneRepository.findByNomUtilisateur(nomUtilisateur);
-        if (personneRecherche == null) {
+        if(personneRecherche == null){
             throw new NotFoundException("Aucun utilisateur ne possède ce nom d'utilisateur");
         }
         return personneRecherche;
     }
+	/**
+	 * Permet de retourner le niveau de la personne ayant l'id passer en paramètre
+	 * @param personne
+	 * @return le niveau de la personne
+	 */
+	private Integer niveauPersonne(Personne personne) {
+		Integer nbPointsPersonne = personne.getNbPoints();
+		Integer niveauPersonne = this.niveauRepository.findByNbPoints(nbPointsPersonne);
+
+		return niveauPersonne;
+	}
+
+
+	private PersonneNiveauDto personneToPersonneNiveauDto(Personne personne) {
+		String nomUtilisateur = personne.getNomUtilisateur();
+		Integer nbPoints = personne.getNbPoints();
+		Integer niveauPersonne = this.niveauPersonne(personne);
+
+		return new PersonneNiveauDto(nomUtilisateur, nbPoints, niveauPersonne);
+	}
+
+	@Override
+	public PersonneNiveauDto infosNiveauPersonne(Long idPersonne) {
+		Personne personne = this.findById(idPersonne);
+		return this.personneToPersonneNiveauDto(personne);
+	}
 
     public void incrementerNbPoint(Personne personne, int nbPoints) {
         personne.setNbPoints(personne.getNbPoints() + nbPoints);
