@@ -2,6 +2,8 @@ package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.roles.Role;
 import fr.neosoft.todogame.auth.roles.RoleRepository;
+import fr.neosoft.todogame.niveaux.Niveau;
+import fr.neosoft.todogame.niveaux.NiveauRepository;
 import fr.neosoft.todogame.utils.CRUDService;
 import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,20 @@ public class PersonneService extends CRUDService<Personne> {
 
     private final RoleRepository roleRepository;
 
+	private final NiveauRepository niveauRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public PersonneService(PersonneRepository personneRepository, RoleRepository roleRepository) {
+    public PersonneService(
+			PersonneRepository personneRepository,
+			RoleRepository roleRepository,
+			NiveauRepository niveauRepository
+	) {
         super(personneRepository);
         this.personneRepository = personneRepository;
         this.roleRepository = roleRepository;
+		this.niveauRepository = niveauRepository;
     }
 
     /**
@@ -45,4 +54,11 @@ public class PersonneService extends CRUDService<Personne> {
         personne.setNbPoints(0);
         return this.personneRepository.save(personne);
     }
+	public Niveau niveauPersonne(Long idPersonne) {
+		Integer nbPointsPersonne = this.findById(idPersonne).getNbPoints();
+		Niveau niveauPersonne = this.niveauRepository.findByNbPoints(nbPointsPersonne);
+
+		return niveauPersonne;
+	}
+
 }
