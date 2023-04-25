@@ -42,7 +42,7 @@ public class PersonneService extends CRUDService<Personne> {
         personne.setMotDePasse(password);
         personne.setNom(personneDto.getNom());
         personne.setPrenom(personneDto.getPrenom());
+        personne.setNbPoints(0);
         return this.personneRepository.save(personne);
     }
-
 }

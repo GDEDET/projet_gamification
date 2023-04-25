@@ -29,7 +29,12 @@ public class AuthService implements UserDetailsService {
     @Autowired
     private RoleRepository roleRepository;
 
-
+    /**
+     * Permet d'enregistrer un nouvel utilisateur dans le système en lui attribuant un role PERSONNE par défaut
+     *
+     * @param dto : les informations de la personne à enregistrer
+     * @return l'utilisateur qui a été créée
+     */
     public Personne register(RegisterRequestDto dto){
         Personne utilisateur = new Personne();
         utilisateur.setEmail(dto.getEmail());
@@ -43,6 +48,12 @@ public class AuthService implements UserDetailsService {
         return this.repository.save(utilisateur);
     }
 
+    /**
+     * Permet de retourner un utilisateur à partir de son identifiant (ici le mail)
+     * @param email : l'identifiant de l'utilisateur
+     * @return l'utilisateur chargé à partir des données de la personne associée
+     * @throws UsernameNotFoundException
+     */
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

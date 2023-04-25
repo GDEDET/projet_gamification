@@ -17,7 +17,7 @@ public class RoleConfiguration {
 
     @Autowired
     private void init(RoleRepository roleRepository, AuthService service, PersonneRepository personneRepository){
-        if(roleRepository.findByAuthority("ADMIN").isEmpty()){
+        if(roleRepository.findByAuthority("ADMIN").isEmpty() && personneRepository.findByRoles_Authority("ADMIN").isEmpty()){
             ADMIN = roleRepository.save(new Role(1L, "ADMIN"));
             PERSONNE = roleRepository.save(new Role(2L, "PERSONNE"));
             Personne manager = service.register(new RegisterRequestDto("admin", "admin", "admin@yopmail.com", "admin", "admin"));

@@ -1,6 +1,7 @@
 package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.roles.Role;
+import fr.neosoft.todogame.groupes.Groupe;
 import fr.neosoft.todogame.taches.Tache;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -38,9 +39,17 @@ public class Personne {
     @Column(name = "password", nullable = false)
     private String motDePasse;
 
+    @Column(name = "nb_points", nullable = false)
+    private int nbPoints;
+
     @ManyToMany
     @ToString.Exclude
     private List<Role> roles = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "groupe_id")
+    @ToString.Exclude
+    private Groupe groupe;
 
     @OneToMany
     @ToString.Exclude
