@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("personnes")
 @Tag(name = "Personne", description = "L'API des personnes")
@@ -102,5 +104,35 @@ public class PersonneController {
     @GetMapping("/niveau")
     public PersonneNiveauDto getInfosNiveauPersonne() {
         return personneInterface.infosNiveauPersonne(this.gestionPersonneAuthentifieInterface.getPersonneAuthentifie());
+    }
+
+    @Operation(summary = "Récupérer toutes les personnes triées par ordre décroissant de leur nombre de points")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Personnes trouvées et triées dans l'ordre décroissant de leur nombre de points",
+                    content = @Content( array = @ArraySchema(schema = @Schema(implementation = Personne.class))))
+    })
+    @GetMapping("classement/points")
+    public Iterable<Personne> getClassementParPoints() {
+        return personneInterface.getClassementParPoints();
+    }
+
+    @Operation(summary = "Récupérer toutes les personnes triées par ordre décroissant de leur niveau")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Personnes trouvées et triées dans l'ordre décroissant de leur niveau",
+                    content = @Content( array = @ArraySchema(schema = @Schema(implementation = Personne.class))))
+    })
+    @GetMapping("classement/niveaux")
+    public List<PersonneNiveauDto> getClassementParNiveau() {
+        return personneInterface.getClassementParNiveaux();
+    }
+
+    @Operation(summary = "Récupérer toutes les personnes triées par ordre décroissant de leur nombre de tâches réalisées")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Personnes trouvées et triées dans l'ordre décroissant de leur nombre de tâches réalisées",
+                    content = @Content( array = @ArraySchema(schema = @Schema(implementation = Personne.class))))
+    })
+    @GetMapping("classement/realisations")
+    public List<Personne> getClassementParRealisation() {
+        return personneInterface.getClassementParRealisations();
     }
 }
