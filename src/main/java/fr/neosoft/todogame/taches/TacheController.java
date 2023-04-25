@@ -27,12 +27,23 @@ public class TacheController {
 
     @Operation(summary = "Afficher toutes les tâches")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "tâches trouvées",
+            @ApiResponse(responseCode = "200", description = "Tâches trouvées",
                     content = @Content( array = @ArraySchema(schema = @Schema(implementation = Tache.class))))
     })
     @GetMapping
+    @Secured("ADMIN")
     public Iterable<Tache> findAll() {
         return tacheService.findAll();
+    }
+
+    @Operation(summary = "Afficher toutes les tâches d'un utilisateur")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tâches trouvées",
+                    content = @Content( array = @ArraySchema(schema = @Schema(implementation = Tache.class))))
+    })
+    @GetMapping("{idUser}")
+    public Iterable<Tache> findAllByUser(@Parameter(description = "Id de l'utilisateur") @PathVariable Long idUser) {
+        return tacheService.findAllByUser(idUser);
     }
 
     @Operation(summary = "Créer une tâche")
