@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 @Secured("PERSONNE")
 public class TacheController {
 
-    private final TacheService tacheService;
+    private final GestionTacheInterface gestionTacheInterface;
 
-    public TacheController(TacheService tacheService) {
-        this.tacheService = tacheService;
+    public TacheController(GestionTacheInterface gestionTacheInterface) {
+        this.gestionTacheInterface = gestionTacheInterface;
     }
 
     @Operation(summary = "Afficher toutes les tâches")
@@ -33,7 +33,7 @@ public class TacheController {
     @GetMapping
     @Secured("ADMIN")
     public Iterable<Tache> findAll() {
-        return tacheService.findAll();
+        return gestionTacheInterface.findAll();
     }
 
     @Operation(summary = "Afficher toutes les tâches d'un utilisateur")
@@ -43,7 +43,7 @@ public class TacheController {
     })
     @GetMapping("{idUser}")
     public Iterable<Tache> findAllByUser(@Parameter(description = "Id de l'utilisateur") @PathVariable Long idUser) {
-        return tacheService.findAllByUser(idUser);
+        return gestionTacheInterface.findAllByUser(idUser);
     }
 
     @Operation(summary = "Créer une tâche")
@@ -52,9 +52,9 @@ public class TacheController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Tache.class))})
     })
-    @PostMapping
-    public Tache save(@RequestBody Tache tache) {
-        return tacheService.save(tache);
+    @PostMapping("{idUser}")
+    public Tache creerTache(@Parameter(description = "Id de l'utilisateur") @PathVariable Long idUser, @RequestBody TacheDto tacheDto) {
+        return gestionTacheInterface.creerTache(idUser, tacheDto);
     }
 
     @Operation(summary = "Met à jour une tâche")
@@ -65,7 +65,7 @@ public class TacheController {
     })
     @PutMapping
     public Tache update(@RequestBody Tache tache) {
-        return tacheService.update(tache);
+        return gestionTacheInterface.update(tache);
     }
 
     @Operation(summary = "Trouver une tâche via son Id")
@@ -79,7 +79,7 @@ public class TacheController {
     })
     @GetMapping("{id}")
     public Tache findById(@Parameter(description = "Id de la tâche à afficher") @PathVariable Long id) {
-        return tacheService.findById(id);
+        return gestionTacheInterface.findById(id);
     }
 
     @Operation(summary = "Supprimer une tâche via son Id")
@@ -91,6 +91,6 @@ public class TacheController {
     })
     @DeleteMapping("{id}")
     public void deleteById(@Parameter(description = "Id de la tâche à supprimer") @PathVariable Long id) {
-        tacheService.deleteById(id);
+        gestionTacheInterface.deleteById(id);
     }
 }
