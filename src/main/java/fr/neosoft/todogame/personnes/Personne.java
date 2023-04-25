@@ -39,6 +39,9 @@ public class Personne {
     @Column(name = "password", nullable = false)
     private String motDePasse;
 
+    @Column(name = "nb_points", nullable = false)
+    private int nbPoints;
+
     @ManyToMany
     @ToString.Exclude
     private List<Role> roles = new ArrayList<>();
