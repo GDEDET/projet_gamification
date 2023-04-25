@@ -45,7 +45,7 @@ public class PersonneController {
                             schema = @Schema(implementation = RegisterRequestDto.class))})
     })
     @PostMapping
-    @Secured("MANAGER")
+    @Secured("ADMIN")
     public Personne save(@RequestBody RegisterRequestDto entity) {
         return personneService.creerPersonne(entity);
     }
@@ -57,7 +57,7 @@ public class PersonneController {
                             schema = @Schema(implementation = Personne.class))})
     })
     @PutMapping
-    @Secured("MANAGER")
+    @Secured("ADMIN")
     public Personne modifier(@RequestBody Personne personne) {
         return personneService.update(personne);
     }

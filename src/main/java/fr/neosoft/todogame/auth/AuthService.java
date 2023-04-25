@@ -3,6 +3,7 @@ package fr.neosoft.todogame.auth;
 import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
 import fr.neosoft.todogame.auth.roles.Role;
 import fr.neosoft.todogame.auth.roles.RoleRepository;
+import fr.neosoft.todogame.exceptions.NotFoundException;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,12 @@ public class AuthService implements UserDetailsService {
 
     public Personne register(RegisterRequestDto dto){
         Personne utilisateur = new Personne();
-        utilisateur.setUsername(dto.getUsername());
+        utilisateur.setEmail(dto.getEmail());
+        utilisateur.setNomUtilisateur(dto.getNomUtilisateur());
         Optional<Role> personneRole = roleRepository.findByAuthority("PERSONNE");
         utilisateur.setRoles(List.of(personneRole.get()));
-        String password = passwordEncoder.encode(dto.getPassword());
-        utilisateur.setPassword(password);
+        String password = passwordEncoder.encode(dto.getMotDePasse());
+        utilisateur.setMotDePasse(password);
         utilisateur.setNom(dto.getNom());
         utilisateur.setPrenom(dto.getPrenom());
         return this.repository.save(utilisateur);
@@ -43,12 +45,12 @@ public class AuthService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Personne utilisateur = repository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Personne utilisateur = repository.findByEmail(email);
         if (utilisateur == null){
-            throw new UsernameNotFoundException("Aucun utilisateur ne possède le Username "+username);
+            throw new NotFoundException("Aucun utilisateur ne possède le mail "+email);
         }
-        return new User(utilisateur.getUsername(), utilisateur.getPassword(), utilisateur.getRoles());
+        return new User(utilisateur.getNomUtilisateur(), utilisateur.getMotDePasse(), utilisateur.getRoles());
     }
 
 }

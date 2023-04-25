@@ -44,8 +44,8 @@ public class SecurityConfiguration {
         http.csrf().disable() // Désactive la sécurité CSRF
                 .authorizeHttpRequests()
                         .requestMatchers(
-                                "/auth/login",
-                                "/auth/register", "/v3/api-docs/**",
+                                "/auth/connexion",
+                                "/auth/enregistrer", "/v3/api-docs/**",
                                 "/configuration/ui",
                                 "/swagger-resources/**",
                                 "/configuration/security",
