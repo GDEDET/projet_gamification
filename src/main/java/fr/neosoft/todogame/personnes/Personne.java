@@ -1,6 +1,7 @@
 package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.roles.Role;
+import fr.neosoft.todogame.taches.Tache;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -40,5 +41,9 @@ public class Personne {
     @ManyToMany
     @ToString.Exclude
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany
+    @ToString.Exclude
+    private List<Tache> taches = new ArrayList<>();
 
 }
