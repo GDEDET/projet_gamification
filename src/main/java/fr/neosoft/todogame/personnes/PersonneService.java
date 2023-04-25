@@ -34,11 +34,12 @@ public class PersonneService extends CRUDService<Personne> {
      */
     public Personne creerPersonne(RegisterRequestDto personneDto){
         Personne personne = new Personne();
-        personne.setUsername(personneDto.getUsername());
+        personne.setNomUtilisateur(personneDto.getNomUtilisateur());
+        personne.setEmail(personne.getEmail());
         Optional<Role> personneRole = roleRepository.findByAuthority("PERSONNE");
         personne.setRoles(List.of(personneRole.get()));
-        String password = passwordEncoder.encode(personneDto.getPassword());
-        personne.setPassword(password);
+        String password = passwordEncoder.encode(personneDto.getMotDePasse());
+        personne.setMotDePasse(password);
         personne.setNom(personneDto.getNom());
         personne.setPrenom(personneDto.getPrenom());
         return this.personneRepository.save(personne);

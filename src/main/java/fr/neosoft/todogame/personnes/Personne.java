@@ -28,11 +28,14 @@ public class Personne {
     @NotBlank
     private String prenom;
 
-    @Column(name = "username", unique = true, nullable = false, length = 20)
-    private String username;
+    @Column(name = "email", unique = true, nullable = false, length = 50)
+    private String email;
+
+    @Column(name = "nomUtilisateur", unique = true, nullable = false, length = 20)
+    private String nomUtilisateur;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private String motDePasse;
 
     @ManyToMany
     @ToString.Exclude
