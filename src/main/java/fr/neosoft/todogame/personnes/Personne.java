@@ -40,7 +40,7 @@ public class Personne {
     private String motDePasse;
 
     @Column(name = "nb_points", nullable = false)
-    private int nbPoints;
+    private int nbPoints = 0;
 
     @ManyToMany
     @ToString.Exclude
