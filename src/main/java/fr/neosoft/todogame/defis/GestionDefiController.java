@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("Defi")
 @Tag(name = "Défis", description = "L'API des défis")
@@ -94,5 +96,17 @@ public class GestionDefiController {
     @Secured("ADMIN")
     public void deleteById(@Parameter(description = "Id du défi à supprimer") @PathVariable Long id) {
         gestionDefiInterface.deleteById(id);
+    }
+
+    @Operation(summary="Un utilisateur s'ajoute un défi à sa liste de défis")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "défi ajouté"),
+            @ApiResponse(responseCode = "400", description = "Id fourni invalide",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "défi introuvable")
+    })
+    public List<Defi> ajouterDefi(@PathVariable Long id)
+    {
+        return gestionDefiInterface.ajouterDefi(id);
     }
 }

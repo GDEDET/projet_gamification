@@ -64,9 +64,18 @@ public class GestionDefiService extends CRUDService<Defi> implements GestionDefi
         }
     }
 
+    @Override
+    public List<Defi> ajouterDefi(Long id) {
+        Defi defi = this.findById(id);
+        Personne personne = gestionPersonneAuthentifieInterface.getPersonneAuthentifie();
+        personne.getDefisARealiser().add(defi);
+        this.personneService.save(personne);
+        return personne.getDefisARealiser();
+    }
+
     /**
-     * Méthode interne qui permet de vérifier si un défi est terminé en fonction du nombre de tâche à effectuer
-     * et du nombre de point à gagner
+     * Méthode interne qui permet de vérifier si un défi est terminé en fonction du nombre de tâches à effectuer
+     * et du nombre de points à gagner
      * @param defi : le défi que l'on souhaite controler
      * @return un booléen qui indique si le défi est terminé ou non
      */

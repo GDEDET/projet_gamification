@@ -3,6 +3,8 @@ package fr.neosoft.todogame.defis;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.utils.CRUDInterface;
 
+import java.util.List;
+
 public interface GestionDefiInterface extends CRUDInterface<Defi> {
 
     /**
@@ -22,4 +24,6 @@ public interface GestionDefiInterface extends CRUDInterface<Defi> {
      * @param personne : la personne dont on souhaite mettre à jour la progression de défis
      */
     void incrementerNbPointsGagnes(Personne personne, int nbPoints);
+
+    List<Defi> ajouterDefi(Long id);
 }
