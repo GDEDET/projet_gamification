@@ -1,6 +1,5 @@
-package fr.neosoft.todogame.tacheTests;
+package fr.neosoft.todogame.taches;
 
-import fr.neosoft.todogame.taches.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

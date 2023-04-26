@@ -1,9 +1,8 @@
-package fr.neosoft.todogame.tacheTests;
+package fr.neosoft.todogame.taches;
 
 import fr.neosoft.todogame.defis.GestionDefiInterface;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
-import fr.neosoft.todogame.taches.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
