@@ -60,8 +60,4 @@ public class Personne {
     @ToString.Exclude
     private List<Defi> defisARealiser = new ArrayList<>();
 
-    @OneToMany
-    @ToString.Exclude
-    private List<Defi> defisTermine = new ArrayList<>();
-
 }
