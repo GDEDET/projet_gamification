@@ -1,6 +1,7 @@
 package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
+import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -21,11 +22,14 @@ import org.springframework.web.bind.annotation.*;
 public class PersonneController {
 
     private final PersonneInterface personneInterface;
+    private final GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
 
     public PersonneController(
-            PersonneInterface personneInterface
+            PersonneInterface personneInterface,
+            GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface
     ) {
         this.personneInterface = personneInterface;
+        this.gestionPersonneAuthentifieInterface = gestionPersonneAuthentifieInterface;
     }
 
     @Operation(summary = "Afficher toutes les personnes")
@@ -88,17 +92,15 @@ public class PersonneController {
         personneInterface.deleteById(id);
     }
 
-    @Operation(summary = "Retourner les informations sur le niveau de la personne via son Id")
+    @Operation(summary = "Retourner les informations sur le niveau de la personne authentifié")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Personne trouvée",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Personne.class))}),
-            @ApiResponse(responseCode = "400", description = "Id fourni invalide",
-                    content = @Content),
+                            schema = @Schema(implementation = PersonneNiveauDto.class))}),
             @ApiResponse(responseCode = "404", description = "Personne non trouvée")
     })
-    @GetMapping("{id}/niveau")
-    public PersonneNiveauDto getInfosNiveauPersonne(@Parameter(description = "Id de la personne à afficher") @PathVariable Long id) {
-        return personneInterface.infosNiveauPersonne(id);
+    @GetMapping("/niveau")
+    public PersonneNiveauDto getInfosNiveauPersonne() {
+        return personneInterface.infosNiveauPersonne(this.gestionPersonneAuthentifieInterface.getPersonneAuthentifie());
     }
 }

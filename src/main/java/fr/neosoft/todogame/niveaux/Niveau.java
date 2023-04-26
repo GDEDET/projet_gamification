@@ -22,4 +22,9 @@ public class Niveau {
     @Column(name = "nb_points", nullable = false)
     private int nbPointsRequis;
 
+    public Niveau(int niveauAtteint, int nbPointsRequis) {
+        this.niveauAtteint = niveauAtteint;
+        this.nbPointsRequis = nbPointsRequis;
+    }
+
 }

@@ -14,9 +14,9 @@ public interface PersonneInterface extends CRUDInterface<Personne> {
 	Personne creerPersonne(RegisterRequestDto personneDto);
 
 	/**
-	 * Retourne le nom d'utilisateur, le nb de points et le niveau correspondant à l'idPersonne.
-	 * @param idPersonne de la personne cible.
+	 * Retourne le nom d'utilisateur, le nb de points et le niveau correspondant à la personne.
+	 * @param personne personne authentifié.
 	 * @return le nom d'utilisateur, le nb de points et le niveau correspondant.
 	 */
-	PersonneNiveauDto infosNiveauPersonne(Long idPersonne);
+	PersonneNiveauDto infosNiveauPersonne(Personne personne);
 }
