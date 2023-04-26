@@ -1,6 +1,5 @@
 package fr.neosoft.todogame.tacheTests;
 
-import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.taches.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ class TacheServiceCRUDTest {
     private TacheRepository tacheRepository;
 
     @InjectMocks
-    private TacheService tacheService;
+    private GestionTacheInterface gestionTacheInterface;
 
     @Test
     void save_shouldReturnSavedTache() {
@@ -34,7 +33,7 @@ class TacheServiceCRUDTest {
         when(tacheRepository.save(tache)).thenReturn(tache);
 
         // Act
-        Tache savedTache = tacheService.save(tache);
+        Tache savedTache = gestionTacheInterface.save(tache);
 
         // Assert
         verify(tacheRepository, times(1)).save(tache);
@@ -48,7 +47,7 @@ class TacheServiceCRUDTest {
         when(tacheRepository.save(tacheToUpdate)).thenReturn(tacheToUpdate);
 
         // Act
-        Tache updatedTache = tacheService.update(tacheToUpdate);
+        Tache updatedTache = gestionTacheInterface.update(tacheToUpdate);
 
         // Assert
         verify(tacheRepository, times(1)).save(tacheToUpdate);
@@ -62,7 +61,7 @@ class TacheServiceCRUDTest {
         when(tacheRepository.findById(1L)).thenReturn(Optional.of(tache));
 
         // Act
-        Tache foundTache = tacheService.findById(1L);
+        Tache foundTache = gestionTacheInterface.findById(1L);
 
         // Assert
         verify(tacheRepository, times(1)).findById(1L);
@@ -75,7 +74,7 @@ class TacheServiceCRUDTest {
         when(tacheRepository.findById(1L)).thenReturn(Optional.empty());
 
         // Act & Assert
-        Assertions.assertThrows(RuntimeException.class, () -> tacheService.findById(1L));
+        Assertions.assertThrows(RuntimeException.class, () -> gestionTacheInterface.findById(1L));
         verify(tacheRepository, times(1)).findById(1L);
     }
 
@@ -88,7 +87,7 @@ class TacheServiceCRUDTest {
         when(tacheRepository.findAll()).thenReturn(taches);
 
         // Act & Assert
-        assertIterableEquals(taches, tacheService.findAll());
+        assertIterableEquals(taches, gestionTacheInterface.findAll());
         verify(tacheRepository, times(1)).findAll();
 
         assertEquals(2, taches.size());
@@ -100,7 +99,7 @@ class TacheServiceCRUDTest {
         doNothing().when(tacheRepository).deleteById(1L);
 
         // Act
-        tacheService.deleteById(1L);
+        gestionTacheInterface.deleteById(1L);
 
         // Assert
         verify(tacheRepository, times(1)).deleteById(1L);

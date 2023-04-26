@@ -27,5 +27,5 @@ public class PrerequisRecompense {
 	private int nbTaches;
 
 	@Column(name = "date_realisation")
-	private LocalDate dateRealisation;
+	private LocalDate dateEcheance;
 }

@@ -1,5 +1,6 @@
 package fr.neosoft.todogame.tacheTests;
 
+import fr.neosoft.todogame.defis.GestionDefiInterface;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.taches.*;
@@ -22,9 +23,12 @@ public class TacheServiceTest {
     private PersonneService personneService;
 
     @Mock
+    private GestionDefiInterface gestionDefiInterface;
+
+    @Mock
     private TacheRepository tacheRepository;
 
-    private TacheService tacheService;
+    private GestionTacheInterface gestionTacheInterface;
 
     private List<Tache> tachesList;
 
@@ -32,7 +36,7 @@ public class TacheServiceTest {
 
     @BeforeEach
     public void setUp() {
-        this.tacheService = new TacheService(tacheRepository, personneService);
+        this.gestionTacheInterface = new GestionTacheService(tacheRepository, personneService, gestionDefiInterface);
 
         this.tachesList = Arrays.asList(
                 new Tache(1L, "Tache 1", null, null, Priorite.BASSE, Difficulte.FACILE, Statut.A_FAIRE, 1),
@@ -53,7 +57,7 @@ public class TacheServiceTest {
     {
         // Act
         Personne personne = personneService.findById(1L);
-        Iterable<Tache> taches = tacheService.findAllByUser(1L);
+        Iterable<Tache> taches = gestionTacheInterface.findAllByUser(1L);
 
         //Assert
         assertEquals(personne, personneService.findById(1L));

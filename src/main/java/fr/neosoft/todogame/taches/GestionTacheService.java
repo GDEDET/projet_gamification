@@ -1,9 +1,13 @@
 package fr.neosoft.todogame.taches;
 
+import fr.neosoft.todogame.defis.GestionDefiInterface;
+import fr.neosoft.todogame.exceptions.NotFoundException;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.utils.CRUDService;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class GestionTacheService extends CRUDService<Tache> implements GestionTacheInterface{
@@ -12,16 +16,29 @@ public class GestionTacheService extends CRUDService<Tache> implements GestionTa
 
     private final PersonneService personneService;
 
-    public GestionTacheService(TacheRepository tacheRepository, PersonneService personneService) {
+    private final GestionDefiInterface gestionDefiInterface;
+
+    public GestionTacheService(TacheRepository tacheRepository, PersonneService personneService, GestionDefiInterface gestionDefiInterface) {
         super(tacheRepository);
         this.tacheRepository = tacheRepository;
         this.personneService = personneService;
+        this.gestionDefiInterface = gestionDefiInterface;
     }
 
     @Override
     public Iterable<Tache> findAllByUser(Long idUser) {
         Personne personne = this.personneService.findById(idUser);
         return personne.getTaches();
+    }
+
+    @Override
+    public Tache terminerTache(Long tacheId) {
+        Tache tache = this.findById(tacheId);
+
+        tache.setStatut(Statut.TERMINE);
+        tache.setDateRealisation(new Date());
+        this.gestionDefiInterface.incrementerNbTachesTerminees(tache.getPersonne());
+        return this.save(tache);
     }
 
     @Override
