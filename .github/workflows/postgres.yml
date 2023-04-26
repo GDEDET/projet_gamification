@@ -43,7 +43,7 @@ jobs:
       - name: Setup database
         run: psql -h postgres -U formation -c 'CREATE DATABASE "projet_gamification";'
         env:
-          PGPASSWORD: postgres
+          PGPASSWORD: formation
       # queries database with postgres client
       - name: Query database
         run: psql -h postgres -d formation -U formation -c 'SELECT 1;'
