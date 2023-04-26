@@ -1,5 +1,7 @@
 package fr.neosoft.todogame.defis;
 
+import fr.neosoft.todogame.defis.defis_personnes.DefiPersonne;
+import fr.neosoft.todogame.defis.defis_personnes.GestionDefiPersonneInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -21,8 +23,10 @@ import java.util.List;
 @Secured("PERSONNE")
 public class GestionDefiController {
     private final GestionDefiInterface gestionDefiInterface;
+    private final GestionDefiPersonneInterface gestionDefiPersonneInterface;
 
-    public GestionDefiController(GestionDefiInterface gestionDefiInterface) {
+    public GestionDefiController(GestionDefiPersonneInterface gestionDefiPersonneInterface, GestionDefiInterface gestionDefiInterface) {
+        this.gestionDefiPersonneInterface = gestionDefiPersonneInterface;
         this.gestionDefiInterface = gestionDefiInterface;
     }
 
@@ -43,8 +47,8 @@ public class GestionDefiController {
                     content = @Content( array = @ArraySchema(schema = @Schema(implementation = Defi.class))))
     })
     @GetMapping("/voir-mes-defis")
-    public Iterable<Defi> findAllByPersonneConnecte() {
-        return gestionDefiInterface.findAllByPersonneConnecte();
+    public List<DefiPersonne> findAllByPersonneConnecte() {
+        return gestionDefiPersonneInterface.findAllByPersonneConnecte();
     }
 
     @Operation(summary = "Créer un défi")
@@ -105,8 +109,8 @@ public class GestionDefiController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "défi introuvable")
     })
-    public List<Defi> ajouterDefi(@PathVariable Long id)
+    public List<DefiPersonne> ajouterDefi(@PathVariable Long id)
     {
-        return gestionDefiInterface.ajouterDefi(id);
+        return gestionDefiPersonneInterface.ajouterDefi(id);
     }
 }

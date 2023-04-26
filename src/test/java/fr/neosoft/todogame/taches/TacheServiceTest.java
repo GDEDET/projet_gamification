@@ -1,6 +1,7 @@
 package fr.neosoft.todogame.taches;
 
 import fr.neosoft.todogame.defis.GestionDefiInterface;
+import fr.neosoft.todogame.defis.defis_personnes.GestionDefiPersonneInterface;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,9 @@ public class TacheServiceTest {
     @Mock
     private TacheRepository tacheRepository;
 
+    @Mock
+    private GestionDefiPersonneInterface gestionDefiPersonneInterface;
+
     private GestionTacheInterface gestionTacheInterface;
 
     private List<Tache> tachesList;
@@ -35,7 +39,7 @@ public class TacheServiceTest {
 
     @BeforeEach
     public void setUp() {
-        this.gestionTacheInterface = new GestionTacheService(tacheRepository, personneService, gestionDefiInterface);
+        this.gestionTacheInterface = new GestionTacheService(tacheRepository, personneService, gestionDefiInterface, gestionDefiPersonneInterface);
 
         this.tachesList = Arrays.asList(
                 new Tache(1L, "Tache 1", null, null, Priorite.BASSE, Difficulte.FACILE, Statut.A_FAIRE, 1),

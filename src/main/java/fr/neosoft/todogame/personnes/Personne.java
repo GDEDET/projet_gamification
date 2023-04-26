@@ -1,7 +1,7 @@
 package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.roles.Role;
-import fr.neosoft.todogame.defis.Defi;
+import fr.neosoft.todogame.defis.defis_personnes.DefiPersonne;
 import fr.neosoft.todogame.groupes.Groupe;
 import fr.neosoft.todogame.taches.Tache;
 import jakarta.persistence.*;
@@ -56,12 +56,12 @@ public class Personne {
     @ToString.Exclude
     private List<Tache> taches = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "personne", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Defi> defisARealiser = new ArrayList<>();
+    private List<DefiPersonne> defisARealiser = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "personne", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Defi> defisTermine = new ArrayList<>();
+    private List<DefiPersonne> defisTermine = new ArrayList<>();
 
 }
