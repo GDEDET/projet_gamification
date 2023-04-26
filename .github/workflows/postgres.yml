@@ -40,10 +40,13 @@ jobs:
         run: |
           apt-get update
           apt-get install --yes postgresql-client
-
+      - name: Setup database
+        run: psql -h postgres -U formation -c 'CREATE DATABASE "projet_gamification";'
+        env:
+          PGPASSWORD: postgres
       # queries database with postgres client
       - name: Query database
-        run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
+        run: psql -h postgres -d formation -U formation -c 'SELECT 1;'
         env:
           # postgress password is required; alternatively, you can run:
           # `PGPASSWORD=postgres_password psql ...`
