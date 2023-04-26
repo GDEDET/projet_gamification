@@ -60,8 +60,4 @@ public class Personne {
     @ToString.Exclude
     private List<DefiPersonne> defisARealiser = new ArrayList<>();
 
-    @OneToMany(mappedBy = "personne", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<DefiPersonne> defisTermine = new ArrayList<>();
-
 }

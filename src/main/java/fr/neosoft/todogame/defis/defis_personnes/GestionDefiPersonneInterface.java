@@ -5,7 +5,7 @@ import fr.neosoft.todogame.utils.CRUDInterface;
 
 import java.util.List;
 
-public interface GestionDefiPersonneInterface extends CRUDInterface<DefiPersonne> {
+public interface GestionDefiPersonneInterface {
     List<DefiPersonne> findAllByPersonneConnecte();
 
     /**

@@ -6,23 +6,28 @@ import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.utils.CRUDService;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class GestionDefiPersonneService extends CRUDService<DefiPersonne> implements GestionDefiPersonneInterface {
+@Service
+public class GestionDefiPersonneService implements GestionDefiPersonneInterface {
 
     private final GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
     private final GestionDefiInterface gestionDefiInterface;
     private final PersonneService personneService;
 
+    private final DefiPersonneRepository defiPersonneRepository;
+
     public GestionDefiPersonneService(
-            CrudRepository<DefiPersonne, Long> repository,
+            DefiPersonneRepository repository,
             GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface,
             GestionDefiInterface gestionDefiInterface,
             PersonneService personneService
     ) {
-        super(repository);
+        this.defiPersonneRepository = repository;
         this.gestionPersonneAuthentifieInterface = gestionPersonneAuthentifieInterface;
         this.gestionDefiInterface = gestionDefiInterface;
         this.personneService = personneService;
@@ -42,7 +47,7 @@ public class GestionDefiPersonneService extends CRUDService<DefiPersonne> implem
                 defiPersonne.setNbTachesTerminees(
                         defiPersonne.getNbTachesTerminees() + 1
                 );
-                this.save(defiPersonne);
+                this.defiPersonneRepository.save(defiPersonne);
 
                 if (this.isDefiTermine(defiPersonne)) {
                     this.terminerDefi(defiPersonne);
@@ -65,7 +70,7 @@ public class GestionDefiPersonneService extends CRUDService<DefiPersonne> implem
                     this.terminerDefi(defiPersonne);
                 }
 
-                this.save(defiPersonne);
+                this.defiPersonneRepository.save(defiPersonne);
             }
         }
     }

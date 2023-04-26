@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,8 @@ import java.util.List;
 @Secured("PERSONNE")
 public class GestionDefiController {
     private final GestionDefiInterface gestionDefiInterface;
+
+    @Autowired
     private final GestionDefiPersonneInterface gestionDefiPersonneInterface;
 
     public GestionDefiController(GestionDefiPersonneInterface gestionDefiPersonneInterface, GestionDefiInterface gestionDefiInterface) {
