@@ -54,9 +54,14 @@ public class PersonneService extends CRUDService<Personne> {
      */
     public Personne findByNomUtilisateur(String nomUtilisateur) {
         Personne personneRecherche = this.personneRepository.findByNomUtilisateur(nomUtilisateur);
-        if(personneRecherche == null){
+        if (personneRecherche == null) {
             throw new NotFoundException("Aucun utilisateur ne possède ce nom d'utilisateur");
         }
         return personneRecherche;
+    }
+
+    public void incrementerNbPoint(Personne personne, int nbPoints) {
+        personne.setNbPoints(personne.getNbPoints() + nbPoints);
+        this.save(personne);
     }
 }
