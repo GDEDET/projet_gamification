@@ -56,12 +56,8 @@ public class Personne {
     @ToString.Exclude
     private List<Tache> taches = new ArrayList<>();
 
-    @ManyToMany
+    @OneToMany
     @ToString.Exclude
     private List<Defi> defisARealiser = new ArrayList<>();
-
-    @ManyToMany
-    @ToString.Exclude
-    private List<Defi> defisTermine = new ArrayList<>();
 
 }

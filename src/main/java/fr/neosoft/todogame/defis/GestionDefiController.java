@@ -42,7 +42,7 @@ public class GestionDefiController {
             @ApiResponse(responseCode = "200", description = "Défis trouvés",
                     content = @Content( array = @ArraySchema(schema = @Schema(implementation = Defi.class))))
     })
-    @GetMapping()
+    @GetMapping("/voir-mes-defis")
     public Iterable<Defi> findAllByPersonneConnecte() {
         return gestionDefiInterface.findAllByPersonneConnecte();
     }
