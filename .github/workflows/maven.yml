@@ -50,10 +50,11 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Install PostgreSQL client
+      - name: Install PostgreSQL client & Maven
         run: |
           apt-get update
           apt-get install --yes postgresql-client
+          apt-get install --yes maven
       # queries database with postgres client
       - name: Query database
         run: psql -h postgres -d projet_gamification -U formation -c 'SELECT 1;'
