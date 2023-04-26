@@ -25,72 +25,74 @@ public class GestionDefiController {
     }
 
 
-    @Operation(summary = "Afficher toutes les défis")
+    @Operation(summary = "Afficher tous les défis")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Défis trouvées",
                     content = @Content( array = @ArraySchema(schema = @Schema(implementation = Defi.class))))
     })
     @GetMapping
-    @Secured("ADMIN")
     public Iterable<Defi> findAll() {
         return gestionDefiInterface.findAll();
     }
 
-    @Operation(summary = "Afficher toutes les tâches d'un utilisateur")
+    @Operation(summary = "Afficher tous les défis de l'utilisateur connecté")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Défis trouvées",
+            @ApiResponse(responseCode = "200", description = "Défis trouvés",
                     content = @Content( array = @ArraySchema(schema = @Schema(implementation = Defi.class))))
     })
-    @GetMapping("{idUser}")
-    public Iterable<Defi> findAllByUser(@Parameter(description = "Id de l'utilisateur") @PathVariable Long idUser) {
-        return gestionDefiInterface.findAllByUser(idUser);
+    @GetMapping()
+    public Iterable<Defi> findAllByPersonneConnecte() {
+        return gestionDefiInterface.findAllByPersonneConnecte();
     }
 
-    @Operation(summary = "Créer une défi")
+    @Operation(summary = "Créer un défi")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "défi créée",
+            @ApiResponse(responseCode = "201", description = "défi créé",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Defi.class))})
     })
-    @PostMapping("{idUser}")
+    @PostMapping()
+    @Secured("ADMIN")
     public Defi creerDefi(@RequestBody Defi defi) {
         return gestionDefiInterface.save(defi);
     }
 
-    @Operation(summary = "Met à jour une défi")
+    @Operation(summary = "Met à jour un défi")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "défi mise à jour",
+            @ApiResponse(responseCode = "201", description = "défi mis à jour",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Defi.class))})
     })
     @PutMapping
+    @Secured("ADMIN")
     public Defi update(@RequestBody Defi defi) {
         return gestionDefiInterface.update(defi);
     }
 
-    @Operation(summary = "Trouver une défi via son Id")
+    @Operation(summary = "Trouver un défi via son Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "défi trouvée",
+            @ApiResponse(responseCode = "200", description = "défi trouvé",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Defi.class))}),
             @ApiResponse(responseCode = "400", description = "Id fourni invalide",
                     content = @Content),
-            @ApiResponse(responseCode = "404", description = "défi non trouvée")
+            @ApiResponse(responseCode = "404", description = "défi non trouvé")
     })
     @GetMapping("{id}")
-    public Defi findById(@Parameter(description = "Id de la défi à afficher") @PathVariable Long id) {
+    public Defi findById(@Parameter(description = "Id du défi à afficher") @PathVariable Long id) {
         return gestionDefiInterface.findById(id);
     }
 
-    @Operation(summary = "Supprimer une défi via son Id")
+    @Operation(summary = "Supprimer un défi via son Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "défi supprimée"),
+            @ApiResponse(responseCode = "204", description = "défi supprimé"),
             @ApiResponse(responseCode = "400", description = "Id fourni invalide",
                     content = @Content),
-            @ApiResponse(responseCode = "404", description = "défi non trouvée")
+            @ApiResponse(responseCode = "404", description = "défi non trouvé")
     })
     @DeleteMapping("{id}")
-    public void deleteById(@Parameter(description = "Id de la défi à supprimer") @PathVariable Long id) {
+    @Secured("ADMIN")
+    public void deleteById(@Parameter(description = "Id du défi à supprimer") @PathVariable Long id) {
         gestionDefiInterface.deleteById(id);
     }
 }

@@ -32,8 +32,8 @@ public class GestionTacheService extends CRUDService<Tache> implements GestionTa
     }
 
     @Override
-    public Tache terminerTache(Long id) {
-        Tache tache = this.findById(id);
+    public Tache terminerTache(Long tacheId) {
+        Tache tache = this.findById(tacheId);
 
         tache.setStatut(Statut.TERMINE);
         tache.setDateRealisation(new Date());

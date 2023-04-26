@@ -110,8 +110,8 @@ public class TacheController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Tâche non trouvée")
     })
-    @PutMapping("terminer/{id}")
-    public Tache terminerTache(@Parameter(description = "Id de la tâche à terminer") @PathVariable Long id) {
-        return gestionTacheInterface.terminerTache(id);
+    @PutMapping("terminer/{tacheId}")
+    public Tache terminerTache(@Parameter(description = "Id de la tâche à terminer") @PathVariable Long tacheId) {
+        return gestionTacheInterface.terminerTache(tacheId);
     }
 }
