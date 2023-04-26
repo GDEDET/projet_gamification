@@ -2,6 +2,7 @@ package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.roles.Role;
 import fr.neosoft.todogame.auth.roles.RoleRepository;
+import fr.neosoft.todogame.exceptions.NotFoundException;
 import fr.neosoft.todogame.utils.CRUDService;
 import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,18 @@ public class PersonneService extends CRUDService<Personne> {
         personne.setPrenom(personneDto.getPrenom());
         personne.setNbPoints(0);
         return this.personneRepository.save(personne);
+    }
+
+    /**
+     * Méthode qui permet de trouver une personne à partir de son nomUtilisateur
+     * @param nomUtilisateur : le nom d'utilisateur de la personne
+     * @return la personne recherché
+     */
+    public Personne findByNomUtilisateur(String nomUtilisateur) {
+        Personne personneRecherche = this.personneRepository.findByNomUtilisateur(nomUtilisateur);
+        if(personneRecherche == null){
+            throw new NotFoundException("Aucun utilisateur ne possède ce nom d'utilisateur");
+        }
+        return personneRecherche;
     }
 }

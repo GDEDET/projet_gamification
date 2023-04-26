@@ -13,4 +13,5 @@ public interface PersonneRepository extends CrudRepository<Personne, Long> {
 
     List<Personne> findByRoles_Authority(String role);
 
+    Personne findByNomUtilisateur(String nomUtilisateur);
 }
