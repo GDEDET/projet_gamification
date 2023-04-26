@@ -1,6 +1,7 @@
 package fr.neosoft.todogame.taches;
 
 
+import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.utils.CRUDInterface;
 
 /**
@@ -10,11 +11,11 @@ public interface GestionTacheInterface extends CRUDInterface<Tache> {
 
     /**
      * Permet à un utilisateur de se créer une tâche
-     * @param idUtilisateur l'id de l'utilisateur
+     * @param personne la personne qui créer la tâche
      * @param tacheDto la tâche que l'utilisateur souhaite s'ajouter
      * @return la tâche créée
      */
-    Tache creerTache(Long idUtilisateur, TacheDto tacheDto);
+    Tache creerTache(Personne personne, TacheDto tacheDto);
 
     /**
      * Permet de trouver toutes les tâches d'un utilisateur donné

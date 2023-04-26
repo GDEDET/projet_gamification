@@ -25,22 +25,28 @@ public class GestionTacheService extends CRUDService<Tache> implements GestionTa
     }
 
     @Override
-    public Tache creerTache(Long idUtilisateur, TacheDto tacheDto) {
-        Personne personne = personneService.findById(idUtilisateur);
-        Tache nouvelleTache = this.tacheDtoToObject(tacheDto);
+    public Tache creerTache(Personne personne, TacheDto tacheDto) {
+        Tache nouvelleTache = this.nouvelleTacheAPartirDuDto(tacheDto);
         this.save(nouvelleTache);
         personne.getTaches().add(nouvelleTache);
         personneService.save(personne);
         return nouvelleTache;
     }
 
-    private Tache tacheDtoToObject(TacheDto tacheDto){
+    /**
+     * Méthode interne qui permet de transformer un objet de type TacheDto en objet Tache en l'initialisant avec les
+     * valeurs souhaitées
+     * @param tacheDto : l'objet contenant les information pour la création de la tâche
+     * @return la tâche initialisée à partir des données fournies
+     */
+    private Tache nouvelleTacheAPartirDuDto(TacheDto tacheDto){
         Tache tache = new Tache();
         tache.setDescription(tacheDto.getDescription());
         tache.setDifficulte(tacheDto.getDifficulte());
         tache.setDateEcheance(tacheDto.getDateEcheance());
         tache.setPriorite(tacheDto.getPriorite());
         tache.setNbPoints(tacheDto.getDifficulte().getNbPoint() + tacheDto.getPriorite().getNbPoint());
+        tache.setStatut(Statut.EN_COURS);
         return tache;
     }
 

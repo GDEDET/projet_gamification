@@ -1,5 +1,7 @@
 package fr.neosoft.todogame.taches;
 
+import fr.neosoft.todogame.personnes.Personne;
+import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -10,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,8 +25,11 @@ public class TacheController {
 
     private final GestionTacheInterface gestionTacheInterface;
 
-    public TacheController(GestionTacheInterface gestionTacheInterface) {
+    private final GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
+
+    public TacheController(GestionTacheInterface gestionTacheInterface, GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface) {
         this.gestionTacheInterface = gestionTacheInterface;
+        this.gestionPersonneAuthentifieInterface = gestionPersonneAuthentifieInterface;
     }
 
     @Operation(summary = "Afficher toutes les tâches")
@@ -32,7 +39,7 @@ public class TacheController {
     })
     @GetMapping
     @Secured("ADMIN")
-    public Iterable<Tache> findAll() {
+    public Iterable<Tache> findAll(Authentication authentication) {
         return gestionTacheInterface.findAll();
     }
 
@@ -52,9 +59,9 @@ public class TacheController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Tache.class))})
     })
-    @PostMapping("{idUser}")
-    public Tache creerTache(@Parameter(description = "Id de l'utilisateur") @PathVariable Long idUser, @RequestBody TacheDto tacheDto) {
-        return gestionTacheInterface.creerTache(idUser, tacheDto);
+    @PostMapping()
+    public Tache creerTache(@RequestBody TacheDto tacheDto) {
+        return gestionTacheInterface.creerTache(this.gestionPersonneAuthentifieInterface.getPersonneAuthentifie(), tacheDto);
     }
 
     @Operation(summary = "Met à jour une tâche")
