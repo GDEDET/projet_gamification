@@ -42,7 +42,7 @@ jobs:
           apt-get install --yes postgresql-client
       # queries database with postgres client
       - name: Query database
-        run: psql -h postgres -d formation -U formation -c 'SELECT 1;'
+        run: psql -h postgres -d projet_gamification -U formation -c 'SELECT 1;'
         env:
           # postgress password is required; alternatively, you can run:
           # `PGPASSWORD=postgres_password psql ...`
