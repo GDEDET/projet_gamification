@@ -23,7 +23,7 @@ public class Defi {
 
     private String description;
 
-    @ManyToMany
+    @ManyToOne
     @ToString.Exclude
     private Personne personneRealisantLeDefi;
 
