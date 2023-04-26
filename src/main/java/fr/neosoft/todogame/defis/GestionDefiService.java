@@ -32,9 +32,9 @@ public class GestionDefiService extends CRUDService<Defi> implements GestionDefi
         List<Defi> listDefis = personne.getDefisARealiser();
 
         for (Defi defi : listDefis) {
-            if (defi.getDefiPrerequis().getNbTachesObjectif() > 0) {
-                defi.getDefiPrerequis().setNbTachesTerminees(
-                        defi.getDefiPrerequis().getNbTachesTerminees() + 1
+            if (defi.getNbTachesObjectif() > 0) {
+                defi.setNbTachesTerminees(
+                        defi.getNbTachesTerminees() + 1
                 );
                 this.save(defi);
 
@@ -50,9 +50,9 @@ public class GestionDefiService extends CRUDService<Defi> implements GestionDefi
         List<Defi> listDefis = personne.getDefisARealiser();
 
         for (Defi defi : listDefis) {
-            if (defi.getDefiPrerequis().getNbPointsObjectif() > 0) {
-                defi.getDefiPrerequis().setNbPointsGagnes(
-                        defi.getDefiPrerequis().getNbPointsGagnes() + nbPoints
+            if (defi.getNbPointsObjectif() > 0) {
+                defi.setNbPointsGagnes(
+                        defi.getNbPointsGagnes() + nbPoints
                 );
 
                 if (this.isDefiTermine(defi)) {
@@ -80,8 +80,8 @@ public class GestionDefiService extends CRUDService<Defi> implements GestionDefi
      * @return un booléen qui indique si le défi est terminé ou non
      */
     private boolean isDefiTermine(Defi defi) {
-        return defi.getDefiPrerequis().getNbTachesTerminees() == defi.getDefiPrerequis().getNbTachesObjectif()
-                && defi.getDefiPrerequis().getNbPointsGagnes() > defi.getDefiPrerequis().getNbPointsObjectif();
+        return defi.getNbTachesTerminees() == defi.getNbTachesObjectif()
+                && defi.getNbPointsGagnes() > defi.getNbPointsObjectif();
     }
 
     /**
