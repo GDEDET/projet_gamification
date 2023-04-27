@@ -3,9 +3,11 @@ package fr.neosoft.todogame.personnes;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface PersonneRepository extends JpaRepository<Personne, Long> {
 
     Personne findByEmail(String email);
