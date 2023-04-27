@@ -40,6 +40,9 @@ public class AuthService implements UserDetailsService {
         utilisateur.setEmail(dto.getEmail());
         utilisateur.setNomUtilisateur(dto.getNomUtilisateur());
         Optional<Role> personneRole = roleRepository.findByAuthority("PERSONNE");
+        if(personneRole.isEmpty()){
+            throw new NotFoundException("Le role PERSONNE n'a pas été trouvé dans la base");
+        }
         utilisateur.setRoles(List.of(personneRole.get()));
         String password = passwordEncoder.encode(dto.getMotDePasse());
         utilisateur.setMotDePasse(password);

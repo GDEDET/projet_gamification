@@ -46,6 +46,9 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
         personne.setNomUtilisateur(personneDto.getNomUtilisateur());
         personne.setEmail(personne.getEmail());
         Optional<Role> personneRole = roleRepository.findByAuthority("PERSONNE");
+		if(personneRole.isEmpty()){
+			throw new NotFoundException("Le role PERSONNE n'a pas été trouvé dans la base");
+		}
         personne.setRoles(List.of(personneRole.get()));
         String password = passwordEncoder.encode(personneDto.getMotDePasse());
         personne.setMotDePasse(password);
