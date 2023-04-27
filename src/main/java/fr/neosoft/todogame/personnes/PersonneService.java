@@ -9,6 +9,8 @@ import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,24 +60,22 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
         return this.personneRepository.save(personne);
     }
 
-    /**
-     * Méthode qui permet de trouver une personne à partir de son nomUtilisateur
-     * @param nomUtilisateur : le nom d'utilisateur de la personne
-     * @return la personne recherché
-     */
+
+    @Override
     public Personne findByNomUtilisateur(String nomUtilisateur) {
         Personne personneRecherche = this.personneRepository.findByNomUtilisateur(nomUtilisateur);
-        if(personneRecherche == null){
+        if (personneRecherche == null) {
             throw new NotFoundException("Aucun utilisateur ne possède ce nom d'utilisateur");
         }
         return personneRecherche;
     }
+
 	/**
 	 * Permet de retourner le niveau de la personne ayant l'id passer en paramètre
 	 * @param personne
 	 * @return le niveau de la personne
 	 */
-	private Integer niveauPersonne(Personne personne) {
+	private Integer getNiveauPersonne(Personne personne) {
 		Integer nbPointsPersonne = personne.getNbPoints();
 		Integer niveauPersonne = this.niveauRepository.findByNbPoints(nbPointsPersonne);
 
@@ -83,19 +83,46 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
 	}
 
 
-	private PersonneNiveauDto personneToPersonneNiveauDto(Personne personne) {
-		String nomUtilisateur = personne.getNomUtilisateur();
-		Integer nbPoints = personne.getNbPoints();
-		Integer niveauPersonne = this.niveauPersonne(personne);
+    @Override
+    public Iterable<Personne> getClassementParPoints(){
+        return this.personneRepository.findAllByOrderByNbPointsDesc();
+    }
 
-		return new PersonneNiveauDto(nomUtilisateur, nbPoints, niveauPersonne);
-	}
+    @Override
+    public ArrayList<PersonneNiveauDto> getClassementParNiveaux() {
+        Iterable<Personne> listPersonnesParPointsDesc = this.personneRepository.findAllByOrderByNbPointsDesc();
+        ArrayList<PersonneNiveauDto> listPersonnesDto = new ArrayList<>();
+        for (Personne personne : listPersonnesParPointsDesc) {
+            listPersonnesDto.add(new PersonneNiveauDto(
+                    personne.getNomUtilisateur(),
+                    personne.getNbPoints(),
+                    this.getNiveauPersonne(personne)
+            ));
+        }
 
-	@Override
-	public PersonneNiveauDto infosNiveauPersonne(Personne personne) {
-		return this.personneToPersonneNiveauDto(personne);
-	}
+        return listPersonnesDto;
+    }
 
+
+    @Override
+    public List<Personne> getClassementParRealisations() {
+        return this.personneRepository.findAllByOrderByTachesRealiseesDesc();
+    }
+
+    private PersonneNiveauDto personneToPersonneNiveauDto(Personne personne) {
+        String nomUtilisateur = personne.getNomUtilisateur();
+        Integer nbPoints = personne.getNbPoints();
+        Integer niveauPersonne = this.getNiveauPersonne(personne);
+
+        return new PersonneNiveauDto(nomUtilisateur, nbPoints, niveauPersonne);
+    }
+
+    @Override
+    public PersonneNiveauDto infosNiveauPersonne(Personne personne) {
+        return this.personneToPersonneNiveauDto(personne);
+    }
+
+    @Override
     public void incrementerNbPoint(Personne personne, int nbPoints) {
         personne.setNbPoints(personne.getNbPoints() + nbPoints);
         this.save(personne);
