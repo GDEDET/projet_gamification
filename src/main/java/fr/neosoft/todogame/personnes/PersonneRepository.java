@@ -1,9 +1,6 @@
 package fr.neosoft.todogame.personnes;
 
 
-import fr.neosoft.todogame.taches.Statut;
-import fr.neosoft.todogame.taches.Tache;
-import jakarta.persistence.TypedQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +14,7 @@ public interface PersonneRepository extends JpaRepository<Personne, Long> {
 
     List<Personne> findAllByOrderByNbPointsDesc();
 
-    @Query("SELECT p FROM Personne p JOIN p.taches t WHERE t.statut = 'TERMINE'")
+    @Query("SELECT p FROM Personne p JOIN p.taches t WHERE t.statut = fr.neosoft.todogame.taches.Statut.TERMINE")
     List<Personne> findAllByOrderByTachesRealiseesDesc();
 
     Personne findByNomUtilisateur(String nomUtilisateur);
