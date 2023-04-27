@@ -1,6 +1,6 @@
 package fr.neosoft.todogame.defis;
 
-import fr.neosoft.todogame.defis.defis_personnes.DefiPersonne;
+import fr.neosoft.todogame.defis_personnes.DefiPersonne;
 import jakarta.persistence.*;
 import lombok.*;
 

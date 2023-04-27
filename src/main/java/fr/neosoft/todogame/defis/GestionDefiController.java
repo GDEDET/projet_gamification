@@ -1,7 +1,7 @@
 package fr.neosoft.todogame.defis;
 
-import fr.neosoft.todogame.defis.defis_personnes.DefiPersonne;
-import fr.neosoft.todogame.defis.defis_personnes.GestionDefiPersonneInterface;
+import fr.neosoft.todogame.defis_personnes.DefiPersonne;
+import fr.neosoft.todogame.defis_personnes.GestionDefiPersonneInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

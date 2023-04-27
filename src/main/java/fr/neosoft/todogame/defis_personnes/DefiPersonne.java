@@ -1,4 +1,4 @@
-package fr.neosoft.todogame.defis.defis_personnes;
+package fr.neosoft.todogame.defis_personnes;
 
 import fr.neosoft.todogame.defis.Defi;
 import fr.neosoft.todogame.personnes.Personne;

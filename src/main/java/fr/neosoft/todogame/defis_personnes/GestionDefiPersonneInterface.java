@@ -1,11 +1,15 @@
-package fr.neosoft.todogame.defis.defis_personnes;
+package fr.neosoft.todogame.defis_personnes;
 
 import fr.neosoft.todogame.personnes.Personne;
-import fr.neosoft.todogame.utils.CRUDInterface;
 
 import java.util.List;
 
 public interface GestionDefiPersonneInterface {
+
+    /**
+     * Permet de trouver tous les défis associés à la personne authentifiée
+     * @return la liste des défis de l'utilisateur donné
+     */
     List<DefiPersonne> findAllByPersonneConnecte();
 
     /**

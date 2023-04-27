@@ -1,7 +1,7 @@
 package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.roles.Role;
-import fr.neosoft.todogame.defis.defis_personnes.DefiPersonne;
+import fr.neosoft.todogame.defis_personnes.DefiPersonne;
 import fr.neosoft.todogame.groupes.Groupe;
 import fr.neosoft.todogame.taches.Tache;
 import jakarta.persistence.*;

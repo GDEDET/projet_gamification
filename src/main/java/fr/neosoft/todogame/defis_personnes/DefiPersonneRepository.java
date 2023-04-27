@@ -1,4 +1,4 @@
-package fr.neosoft.todogame.defis.defis_personnes;
+package fr.neosoft.todogame.defis_personnes;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

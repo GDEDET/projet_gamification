@@ -1,13 +1,10 @@
-package fr.neosoft.todogame.defis.defis_personnes;
+package fr.neosoft.todogame.defis_personnes;
 
 import fr.neosoft.todogame.defis.Defi;
 import fr.neosoft.todogame.defis.GestionDefiInterface;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
-import fr.neosoft.todogame.utils.CRUDService;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

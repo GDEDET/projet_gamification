@@ -1,7 +1,7 @@
 package fr.neosoft.todogame.taches;
 
 import fr.neosoft.todogame.defis.GestionDefiInterface;
-import fr.neosoft.todogame.defis.defis_personnes.GestionDefiPersonneInterface;
+import fr.neosoft.todogame.defis_personnes.GestionDefiPersonneInterface;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.utils.CRUDService;
