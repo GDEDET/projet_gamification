@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = "Bearer Authentication")
 @Secured("PERSONNE")
 public class GroupeController {
-    private final GroupeService groupeService;
+    private final GestionGroupeInterface gestionGroupeInterface;
 
-    public GroupeController(GroupeService service) {
-        this.groupeService = service;
+    public GroupeController(GestionGroupeInterface gestionGroupeInterface) {
+        this.gestionGroupeInterface = gestionGroupeInterface;
     }
 
     @Operation(summary = "Afficher tous les groupes")
@@ -33,7 +33,7 @@ public class GroupeController {
     @GetMapping
     @Secured("ADMIN")
     public Iterable<Groupe> findAll() {
-        return groupeService.findAll();
+        return this.gestionGroupeInterface.findAll();
     }
 
     @Operation(summary = "Créer un groupe")
@@ -45,7 +45,7 @@ public class GroupeController {
     @PostMapping
     @Secured("ADMIN")
     public Groupe save(@RequestBody Groupe groupe) {
-        return groupeService.save(groupe);
+        return this.gestionGroupeInterface.save(groupe);
     }
 
     @Operation(summary = "Met à jour un groupe")
@@ -56,7 +56,7 @@ public class GroupeController {
     })
     @PutMapping
     public Groupe update(@RequestBody Groupe groupe) {
-        return groupeService.update(groupe);
+        return this.gestionGroupeInterface.update(groupe);
     }
 
     @Operation(summary = "Trouver un groupe via son Id")
@@ -71,7 +71,7 @@ public class GroupeController {
     @GetMapping("{idGroupe}")
     @Secured("ADMIN")
     public Groupe findById(@Parameter(description = "Id du groupe à afficher") @PathVariable Long idGroupe) {
-        return groupeService.findById(idGroupe);
+        return this.gestionGroupeInterface.findById(idGroupe);
     }
 
     @Operation(summary = "Supprimer un groupe via son Id")
@@ -83,7 +83,7 @@ public class GroupeController {
     })
     @DeleteMapping("{idGroupe}")
     public void deleteById(@Parameter(description = "Id du groupe à supprimer") @PathVariable Long idGroupe) {
-        groupeService.deleteById(idGroupe);
+        this.gestionGroupeInterface.deleteById(idGroupe);
     }
 
     @Operation(summary = "Ajouter un membre à un groupe avec l'id du groupe et l'id de la personne")
@@ -97,7 +97,7 @@ public class GroupeController {
     })
     @PutMapping("/{idGroupe}/ajouter-membre/{idPersonne}")
     public Groupe addMembre(@PathVariable Long idGroupe, @PathVariable Long idPersonne) {
-        return groupeService.addMembre(idGroupe, idPersonne);
+        return this.gestionGroupeInterface.addMembre(idGroupe, idPersonne);
     }
 
     @Operation(summary = "Supprimer un membre d'un groupe avec l'id du groupe et l'id de la personne")
@@ -109,6 +109,6 @@ public class GroupeController {
     })
     @PutMapping("/{idGroupe}/supprimer-membre/{idPersonne}")
     public Groupe removeMembre(@PathVariable Long idGroupe, @PathVariable Long idPersonne) {
-        return groupeService.removeMembre(idGroupe, idPersonne);
+        return this.gestionGroupeInterface.removeMembre(idGroupe, idPersonne);
     }
 }
