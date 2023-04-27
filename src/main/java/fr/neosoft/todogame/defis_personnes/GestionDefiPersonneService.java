@@ -3,6 +3,7 @@ package fr.neosoft.todogame.defis_personnes;
 import fr.neosoft.todogame.defis.Defi;
 import fr.neosoft.todogame.defis.GestionDefiInterface;
 import fr.neosoft.todogame.personnes.Personne;
+import fr.neosoft.todogame.personnes.PersonneInterface;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import org.springframework.stereotype.Service;
@@ -14,20 +15,19 @@ public class GestionDefiPersonneService implements GestionDefiPersonneInterface 
 
     private final GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
     private final GestionDefiInterface gestionDefiInterface;
-    private final PersonneService personneService;
-
+    private final PersonneInterface personneInterface;
     private final DefiPersonneRepository defiPersonneRepository;
 
     public GestionDefiPersonneService(
             DefiPersonneRepository repository,
             GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface,
             GestionDefiInterface gestionDefiInterface,
-            PersonneService personneService
+            PersonneInterface personneInterface
     ) {
         this.defiPersonneRepository = repository;
         this.gestionPersonneAuthentifieInterface = gestionPersonneAuthentifieInterface;
         this.gestionDefiInterface = gestionDefiInterface;
-        this.personneService = personneService;
+        this.personneInterface = personneInterface;
     }
 
     @Override
@@ -77,7 +77,7 @@ public class GestionDefiPersonneService implements GestionDefiPersonneInterface 
         Defi defi = gestionDefiInterface.findById(id);
         Personne personne = gestionPersonneAuthentifieInterface.getPersonneAuthentifie();
         personne.getDefisARealiser().add(new DefiPersonne(personne, defi));
-        this.personneService.save(personne);
+        this.personneInterface.save(personne);
         return personne.getDefisARealiser();
     }
 
@@ -99,9 +99,9 @@ public class GestionDefiPersonneService implements GestionDefiPersonneInterface 
     private void terminerDefi(DefiPersonne defiPersonne) {
         // On augmente les points de la personne qui a réalisé le défi et supprime de sa liste de défis à réaliser
         Personne personne = defiPersonne.getPersonne();
-        personneService.incrementerNbPoint(personne, defiPersonne.getDefi().getNbPointsRecompense());
+        personneInterface.incrementerNbPoint(personne, defiPersonne.getDefi().getNbPointsRecompense());
         personne.getDefisARealiser().remove(defiPersonne);
-        personneService.save(personne);
+        personneInterface.save(personne);
 
         // Si le défi fait gagner des points alors, on incrémente les points des autres défis
         // Attention à bien supprimer ce défi avant de rappeler la fonction d'incrément de points des défis ci-dessous
