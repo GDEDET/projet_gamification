@@ -3,8 +3,8 @@ package fr.neosoft.todogame.niveaux;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 @Configuration
 public class NiveauConfiguration {
@@ -24,7 +24,7 @@ public class NiveauConfiguration {
 			for (int i = 2; i < 100; i++) {
 				// Utilisation d'un nombre généré aléatoirement
 				// Référence utilisée : https://info.clg.qc.ca/java/elements/generer-nombres-aleatoires
-				Random random = new Random();
+				SecureRandom random = new SecureRandom();
 				int nbAleatoire = 5 + random.nextInt(20);
 				nbPointsRequis = nbPointsRequis + nbAleatoire * i * 10;
 				niveauRepository.save(new Niveau(i, nbPointsRequis));
