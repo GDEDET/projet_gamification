@@ -1,10 +1,10 @@
 package fr.neosoft.todogame.taches;
 
-import fr.neosoft.todogame.defis.GestionDefiInterface;
 import fr.neosoft.todogame.defis_personnes.GestionDefiPersonneInterface;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.utils.CRUDService;
+import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -12,26 +12,22 @@ import java.util.Date;
 @Service
 public class GestionTacheService extends CRUDService<Tache> implements GestionTacheInterface{
 
-    private final TacheRepository tacheRepository;
-
     private final PersonneService personneService;
-
-    private final GestionDefiInterface gestionDefiInterface;
 
     private final GestionDefiPersonneInterface gestionDefiPersonneInterface;
 
-    public GestionTacheService(TacheRepository tacheRepository, PersonneService personneService, GestionDefiInterface gestionDefiInterface, GestionDefiPersonneInterface gestionDefiPersonneInterface) {
+    private final GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
+
+    public GestionTacheService(TacheRepository tacheRepository, PersonneService personneService, GestionDefiPersonneInterface gestionDefiPersonneInterface, GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface) {
         super(tacheRepository);
-        this.tacheRepository = tacheRepository;
         this.personneService = personneService;
-        this.gestionDefiInterface = gestionDefiInterface;
         this.gestionDefiPersonneInterface = gestionDefiPersonneInterface;
+        this.gestionPersonneAuthentifieInterface = gestionPersonneAuthentifieInterface;
     }
 
     @Override
-    public Iterable<Tache> findAllByUser(Long idUser) {
-        Personne personne = this.personneService.findById(idUser);
-        return personne.getTaches();
+    public Iterable<Tache> findAllByUserConnected() {
+        return this.gestionPersonneAuthentifieInterface.getPersonneAuthentifie().getTaches();
     }
 
     @Override

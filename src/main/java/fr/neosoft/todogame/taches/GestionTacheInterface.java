@@ -18,11 +18,10 @@ public interface GestionTacheInterface extends CRUDInterface<Tache> {
     Tache creerTache(Personne personne, TacheDto tacheDto);
 
     /**
-     * Permet de trouver toutes les tâches d'un utilisateur donné
-     * @param idUser : l'id de l'utilisateur
+     * Permet de trouver toutes les tâches de l'utilisateur connecté
      * @return la liste des tâches de l'utilisateur
      */
-    Iterable<Tache> findAllByUser(Long idUser);
+    Iterable<Tache> findAllByUserConnected();
 
     /**
      * Permet de terminer une tâche et d'effectuer les traitements nécessaires

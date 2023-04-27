@@ -41,14 +41,14 @@ public class TacheController {
         return gestionTacheInterface.findAll();
     }
 
-    @Operation(summary = "Afficher toutes les tâches d'un utilisateur")
+    @Operation(summary = "Afficher toutes les tâches de la personne connectée")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Tâches trouvées",
                     content = @Content( array = @ArraySchema(schema = @Schema(implementation = Tache.class))))
     })
-    @GetMapping("{idUser}")
-    public Iterable<Tache> findAllByUser(@Parameter(description = "Id de l'utilisateur") @PathVariable Long idUser) {
-        return gestionTacheInterface.findAllByUser(idUser);
+    @GetMapping("voir-mes-taches")
+    public Iterable<Tache> findAllByUser() {
+        return gestionTacheInterface.findAllByUserConnected();
     }
 
     @Operation(summary = "Créer une tâche")
@@ -82,9 +82,9 @@ public class TacheController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Tâche non trouvée")
     })
-    @GetMapping("{id}")
-    public Tache findById(@Parameter(description = "Id de la tâche à afficher") @PathVariable Long id) {
-        return gestionTacheInterface.findById(id);
+    @GetMapping("{tacheId}")
+    public Tache findById(@Parameter(description = "Id de la tâche à afficher") @PathVariable Long tacheId) {
+        return gestionTacheInterface.findById(tacheId);
     }
 
     @Operation(summary = "Supprimer une tâche via son Id")
@@ -94,9 +94,9 @@ public class TacheController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Tâche non trouvée")
     })
-    @DeleteMapping("{id}")
-    public void deleteById(@Parameter(description = "Id de la tâche à supprimer") @PathVariable Long id) {
-        gestionTacheInterface.deleteById(id);
+    @DeleteMapping("{tacheId}")
+    public void deleteById(@Parameter(description = "Id de la tâche à supprimer") @PathVariable Long tacheId) {
+        gestionTacheInterface.deleteById(tacheId);
     }
 
     @Operation(summary = "Valider une tâche")
