@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("Defi")
+@RequestMapping("defis")
 @Tag(name = "Défis", description = "L'API des défis")
 @SecurityRequirement(name = "Bearer Authentication")
 @Secured("PERSONNE")
@@ -87,9 +87,9 @@ public class GestionDefiController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "défi non trouvé")
     })
-    @GetMapping("{id}")
-    public Defi findById(@Parameter(description = "Id du défi à afficher") @PathVariable Long id) {
-        return gestionDefiInterface.findById(id);
+    @GetMapping("{idDefi}")
+    public Defi findById(@Parameter(description = "Id du défi à afficher") @PathVariable Long idDefi) {
+        return gestionDefiInterface.findById(idDefi);
     }
 
     @Operation(summary = "Supprimer un défi via son Id")
@@ -99,10 +99,10 @@ public class GestionDefiController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "défi non trouvé")
     })
-    @DeleteMapping("{id}")
+    @DeleteMapping("{idDefi}")
     @Secured("ADMIN")
-    public void deleteById(@Parameter(description = "Id du défi à supprimer") @PathVariable Long id) {
-        gestionDefiInterface.deleteById(id);
+    public void deleteById(@Parameter(description = "Id du défi à supprimer") @PathVariable Long idDefi) {
+        gestionDefiInterface.deleteById(idDefi);
     }
 
     @Operation(summary="Un utilisateur s'ajoute un défi à sa liste de défis")

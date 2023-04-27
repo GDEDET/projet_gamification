@@ -1,7 +1,6 @@
 package fr.neosoft.todogame.groupes;
 
 import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
-import fr.neosoft.todogame.personnes.Personne;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -69,10 +68,10 @@ public class GroupeController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Groupe non trouvé")
     })
-    @GetMapping("{id}")
+    @GetMapping("{idGroupe}")
     @Secured("ADMIN")
-    public Groupe findById(@Parameter(description = "Id du groupe à afficher") @PathVariable Long id) {
-        return groupeService.findById(id);
+    public Groupe findById(@Parameter(description = "Id du groupe à afficher") @PathVariable Long idGroupe) {
+        return groupeService.findById(idGroupe);
     }
 
     @Operation(summary = "Supprimer un groupe via son Id")
@@ -82,9 +81,9 @@ public class GroupeController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Groupe non trouvé")
     })
-    @DeleteMapping("{id}")
-    public void deleteById(@Parameter(description = "Id du groupe à supprimer") @PathVariable Long id) {
-        groupeService.deleteById(id);
+    @DeleteMapping("{idGroupe}")
+    public void deleteById(@Parameter(description = "Id du groupe à supprimer") @PathVariable Long idGroupe) {
+        groupeService.deleteById(idGroupe);
     }
 
     @Operation(summary = "Ajouter un membre à un groupe avec l'id du groupe et l'id de la personne")
@@ -96,7 +95,7 @@ public class GroupeController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Groupe ou Personne non trouvé")
     })
-    @PutMapping("/add-membre/{idGroupe}/{idPersonne}")
+    @PutMapping("/{idGroupe}/ajouter-membre/{idPersonne}")
     public Groupe addMembre(@PathVariable Long idGroupe, @PathVariable Long idPersonne) {
         return groupeService.addMembre(idGroupe, idPersonne);
     }
@@ -108,7 +107,7 @@ public class GroupeController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Groupe ou Personne non trouvé")
     })
-    @PutMapping("/remove-membre/{idGroupe}/{idPersonne}")
+    @PutMapping("/{idGroupe}/supprimer-membre/{idPersonne}")
     public Groupe removeMembre(@PathVariable Long idGroupe, @PathVariable Long idPersonne) {
         return groupeService.removeMembre(idGroupe, idPersonne);
     }

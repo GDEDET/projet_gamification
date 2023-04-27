@@ -1,6 +1,5 @@
 package fr.neosoft.todogame.taches;
 
-import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,7 +12,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,7 +37,7 @@ public class TacheController {
     })
     @GetMapping
     @Secured("ADMIN")
-    public Iterable<Tache> findAll(Authentication authentication) {
+    public Iterable<Tache> findAll() {
         return gestionTacheInterface.findAll();
     }
 
@@ -110,7 +108,7 @@ public class TacheController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Tâche non trouvée")
     })
-    @PutMapping("terminer/{tacheId}")
+    @PutMapping("{tacheId}/terminer")
     public Tache terminerTache(@Parameter(description = "Id de la tâche à terminer") @PathVariable Long tacheId) {
         return gestionTacheInterface.terminerTache(tacheId);
     }

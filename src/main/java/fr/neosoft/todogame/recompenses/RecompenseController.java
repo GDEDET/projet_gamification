@@ -68,9 +68,9 @@ public class RecompenseController {
 					content = @Content),
 			@ApiResponse(responseCode = "404", description = "Récompense non trouvée")
 	})
-	@GetMapping("{id}")
-	public Recompense findById(@Parameter(description = "Id de la récompense à afficher") @PathVariable Long id) {
-		return recompenseService.findById(id);
+	@GetMapping("{idRecompense}")
+	public Recompense findById(@Parameter(description = "Id de la récompense à afficher") @PathVariable Long idRecompense) {
+		return recompenseService.findById(idRecompense);
 	}
 
 	@Operation(summary = "Supprimer une récompense via son Id")
@@ -80,9 +80,9 @@ public class RecompenseController {
 					content = @Content),
 			@ApiResponse(responseCode = "404", description = "Récompense non trouvée")
 	})
-	@DeleteMapping("{id}")
+	@DeleteMapping("{idRecompense}")
 	@Secured("ADMIN")
-	public void deleteById(@Parameter(description = "Id de la récompense à supprimer") @PathVariable Long id) {
-		recompenseService.deleteById(id);
+	public void deleteById(@Parameter(description = "Id de la récompense à supprimer") @PathVariable Long idRecompense) {
+		recompenseService.deleteById(idRecompense);
 	}
 }

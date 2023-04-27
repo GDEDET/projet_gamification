@@ -38,6 +38,7 @@ public class PersonneController {
                     content = @Content( array = @ArraySchema(schema = @Schema(implementation = Personne.class))))
     })
     @GetMapping
+    @Secured("ADMIN")
     public Iterable<Personne> findAll() {
         return personneInterface.findAll();
     }
@@ -75,9 +76,10 @@ public class PersonneController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Personne non trouvée")
     })
-    @GetMapping("{id}")
-    public Personne findById(@Parameter(description = "Id de la personne à afficher") @PathVariable Long id) {
-        return personneInterface.findById(id);
+    @GetMapping("{idPersonne}")
+    @Secured("ADMIN")
+    public Personne findById(@Parameter(description = "Id de la personne à afficher") @PathVariable Long idPersonne) {
+        return personneInterface.findById(idPersonne);
     }
 
     @Operation(summary = "Supprimer une personne via son Id")
@@ -87,9 +89,10 @@ public class PersonneController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Personne non trouvée")
     })
-    @DeleteMapping("{id}")
-    public void deleteById(@Parameter(description = "Id de la personne à supprimer") @PathVariable Long id) {
-        personneInterface.deleteById(id);
+    @DeleteMapping("{idPersonne}")
+    @Secured("ADMIN")
+    public void deleteById(@Parameter(description = "Id de la personne à supprimer") @PathVariable Long idPersonne) {
+        personneInterface.deleteById(idPersonne);
     }
 
     @Operation(summary = "Retourner les informations sur le niveau de la personne authentifié")
