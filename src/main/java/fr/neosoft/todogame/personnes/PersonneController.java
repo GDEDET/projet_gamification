@@ -1,6 +1,7 @@
 package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
+import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -13,8 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("personnes")
 @Tag(name = "Personne", description = "L'API des personnes")
@@ -22,10 +21,15 @@ import java.util.List;
 @Secured("PERSONNE")
 public class PersonneController {
 
-    private final PersonneService personneService;
+    private final PersonneInterface personneInterface;
+    private final GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
 
-    public PersonneController(PersonneService personneService) {
-        this.personneService = personneService;
+    public PersonneController(
+            PersonneInterface personneInterface,
+            GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface
+    ) {
+        this.personneInterface = personneInterface;
+        this.gestionPersonneAuthentifieInterface = gestionPersonneAuthentifieInterface;
     }
 
     @Operation(summary = "Afficher toutes les personnes")
@@ -35,7 +39,7 @@ public class PersonneController {
     })
     @GetMapping
     public Iterable<Personne> findAll() {
-        return personneService.findAll();
+        return personneInterface.findAll();
     }
 
     @Operation(summary = "Créer une personne")
@@ -47,7 +51,7 @@ public class PersonneController {
     @PostMapping
     @Secured("ADMIN")
     public Personne save(@RequestBody RegisterRequestDto entity) {
-        return personneService.creerPersonne(entity);
+        return personneInterface.creerPersonne(entity);
     }
 
     @Operation(summary = "Met à jour une personne")
@@ -59,7 +63,7 @@ public class PersonneController {
     @PutMapping
     @Secured("ADMIN")
     public Personne modifier(@RequestBody Personne personne) {
-        return personneService.update(personne);
+        return personneInterface.update(personne);
     }
 
     @Operation(summary = "Trouver une personne via son Id")
@@ -73,7 +77,7 @@ public class PersonneController {
     })
     @GetMapping("{id}")
     public Personne findById(@Parameter(description = "Id de la personne à afficher") @PathVariable Long id) {
-        return personneService.findById(id);
+        return personneInterface.findById(id);
     }
 
     @Operation(summary = "Supprimer une personne via son Id")
@@ -85,6 +89,18 @@ public class PersonneController {
     })
     @DeleteMapping("{id}")
     public void deleteById(@Parameter(description = "Id de la personne à supprimer") @PathVariable Long id) {
-        personneService.deleteById(id);
+        personneInterface.deleteById(id);
+    }
+
+    @Operation(summary = "Retourner les informations sur le niveau de la personne authentifié")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Personne trouvée",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PersonneNiveauDto.class))}),
+            @ApiResponse(responseCode = "404", description = "Personne non trouvée")
+    })
+    @GetMapping("/niveau")
+    public PersonneNiveauDto getInfosNiveauPersonne() {
+        return personneInterface.infosNiveauPersonne(this.gestionPersonneAuthentifieInterface.getPersonneAuthentifie());
     }
 }
