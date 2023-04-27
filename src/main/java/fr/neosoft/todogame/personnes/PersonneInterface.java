@@ -10,7 +10,6 @@ public interface PersonneInterface extends CRUDInterface<Personne> {
 
 	/**
 	 * Permet de créer une personne en lui affectant le role personne par défaut et en encodant son mot de passe
-	 *
 	 * @param personneDto : les infos de la personne à creer
 	 * @return la personne créée
 	 */
