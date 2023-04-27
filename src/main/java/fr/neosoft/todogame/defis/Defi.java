@@ -1,10 +1,11 @@
 package fr.neosoft.todogame.defis;
 
-import fr.neosoft.todogame.personnes.Personne;
+import fr.neosoft.todogame.defis_personnes.DefiPersonne;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,10 +23,6 @@ public class Defi {
 
     private String description;
 
-    @ManyToOne
-    @ToString.Exclude
-    private Personne personneRealisantLeDefi;
-
     @Column(name = "type_defi", nullable = false)
     private TypeDefi typeDefi;
 
@@ -41,9 +38,6 @@ public class Defi {
     @Column(name = "date_echeance", nullable = true)
     private LocalDate dateEcheance;
 
-    @Column(name = "nb_taches_terminees", nullable = false)
-    private int nbTachesTerminees = 0;
-
-    @Column(name = "nb_points_gagnes", nullable = false)
-    private int nbPointsGagnes = 0;
+    @OneToMany(mappedBy = "defi")
+    private List<DefiPersonne> defiPersonnes;
 }

@@ -1,5 +1,7 @@
 package fr.neosoft.todogame.defis;
 
+import fr.neosoft.todogame.defis_personnes.DefiPersonne;
+import fr.neosoft.todogame.defis_personnes.GestionDefiPersonneInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -9,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +25,11 @@ import java.util.List;
 public class GestionDefiController {
     private final GestionDefiInterface gestionDefiInterface;
 
-    public GestionDefiController(GestionDefiInterface gestionDefiInterface) {
+    @Autowired
+    private final GestionDefiPersonneInterface gestionDefiPersonneInterface;
+
+    public GestionDefiController(GestionDefiPersonneInterface gestionDefiPersonneInterface, GestionDefiInterface gestionDefiInterface) {
+        this.gestionDefiPersonneInterface = gestionDefiPersonneInterface;
         this.gestionDefiInterface = gestionDefiInterface;
     }
 
@@ -43,8 +50,8 @@ public class GestionDefiController {
                     content = @Content( array = @ArraySchema(schema = @Schema(implementation = Defi.class))))
     })
     @GetMapping("/voir-mes-defis")
-    public Iterable<Defi> findAllByPersonneConnecte() {
-        return gestionDefiInterface.findAllByPersonneConnecte();
+    public List<DefiPersonne> findAllByPersonneConnecte() {
+        return gestionDefiPersonneInterface.findAllByPersonneConnecte();
     }
 
     @Operation(summary = "Créer un défi")
@@ -105,8 +112,8 @@ public class GestionDefiController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "défi introuvable")
     })
-    public List<Defi> ajouterDefi(@PathVariable Long id)
+    public List<DefiPersonne> ajouterDefi(@PathVariable Long id)
     {
-        return gestionDefiInterface.ajouterDefi(id);
+        return gestionDefiPersonneInterface.ajouterDefi(id);
     }
 }
