@@ -6,9 +6,6 @@ import lombok.*;
 @Entity
 @Table(name="niveau")
 @Getter
-@Setter
-@ToString
-@AllArgsConstructor
 @NoArgsConstructor
 public class Niveau {
     @Id
