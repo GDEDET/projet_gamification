@@ -60,4 +60,20 @@ public class Personne {
     @ToString.Exclude
     private List<DefiPersonne> defisARealiser = new ArrayList<>();
 
+    public Personne (
+            String nom,
+            String prenom,
+            String email,
+            String nomUtilisateur,
+            String motDePasse,
+            int nbPoints
+    ){
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.nomUtilisateur = nomUtilisateur;
+        this.motDePasse = motDePasse;
+        this.nbPoints = nbPoints;
+    }
+
 }

@@ -43,15 +43,15 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
      * @param personneDto : les infos de la personne à creer
      * @return la personne créée
      */
+	@Override
     public Personne creerPersonne(RegisterRequestDto personneDto){
         Personne personne = new Personne();
         personne.setNomUtilisateur(personneDto.getNomUtilisateur());
         personne.setEmail(personne.getEmail());
-        Optional<Role> personneRole = roleRepository.findByAuthority("PERSONNE");
-		if(personneRole.isEmpty()){
-			throw new NotFoundException("Le role PERSONNE n'a pas été trouvé dans la base");
-		}
-        personne.setRoles(List.of(personneRole.get()));
+		Role personneRole = roleRepository.findByAuthority("PERSONNE").orElseThrow(
+				() -> new NotFoundException("Le role PERSONNE n'a pas été trouvé dans la base")
+		);
+        personne.setRoles(List.of(personneRole));
         String password = passwordEncoder.encode(personneDto.getMotDePasse());
         personne.setMotDePasse(password);
         personne.setNom(personneDto.getNom());
@@ -60,13 +60,17 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
         return this.personneRepository.save(personne);
     }
 
-
+    /**
+     * Méthode qui permet de trouver une personne à partir de son nomUtilisateur
+     * @param nomUtilisateur : le nom d'utilisateur de la personne
+     * @return la personne recherché
+     */
     @Override
     public Personne findByNomUtilisateur(String nomUtilisateur) {
-        Personne personneRecherche = this.personneRepository.findByNomUtilisateur(nomUtilisateur);
-        if (personneRecherche == null) {
-            throw new NotFoundException("Aucun utilisateur ne possède ce nom d'utilisateur");
-        }
+		Personne personneRecherche = personneRepository.findByNomUtilisateur(nomUtilisateur).orElseThrow(
+			() -> new NotFoundException("Aucun utilisateur ne possède ce nom d'utilisateur")
+		);
+
         return personneRecherche;
     }
 
