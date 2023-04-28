@@ -33,3 +33,4 @@ build/
 .vscode/
 /.idea/
 application-dev.properties
+application-test.properties

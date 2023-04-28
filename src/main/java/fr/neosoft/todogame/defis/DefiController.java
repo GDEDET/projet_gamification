@@ -1,7 +1,7 @@
 package fr.neosoft.todogame.defis;
 
 import fr.neosoft.todogame.defis_personnes.DefiPersonne;
-import fr.neosoft.todogame.defis_personnes.GestionDefiPersonneInterface;
+import fr.neosoft.todogame.defis_personnes.DefiPersonneInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,15 +23,15 @@ import java.util.List;
 @Tag(name = "Défis", description = "L'API des défis")
 @SecurityRequirement(name = "Bearer Authentication")
 @Secured("PERSONNE")
-public class GestionDefiController {
-    private final GestionDefiInterface gestionDefiInterface;
+public class DefiController {
+    private final DefiInterface defiInterface;
 
     @Autowired
-    private final GestionDefiPersonneInterface gestionDefiPersonneInterface;
+    private final DefiPersonneInterface defiPersonneInterface;
 
-    public GestionDefiController(GestionDefiPersonneInterface gestionDefiPersonneInterface, GestionDefiInterface gestionDefiInterface) {
-        this.gestionDefiPersonneInterface = gestionDefiPersonneInterface;
-        this.gestionDefiInterface = gestionDefiInterface;
+    public DefiController(DefiPersonneInterface defiPersonneInterface, DefiInterface defiInterface) {
+        this.defiPersonneInterface = defiPersonneInterface;
+        this.defiInterface = defiInterface;
     }
 
 
@@ -41,7 +42,7 @@ public class GestionDefiController {
     })
     @GetMapping
     public Iterable<Defi> findAll() {
-        return gestionDefiInterface.findAll();
+        return defiInterface.findAll();
     }
 
     @Operation(summary = "Afficher tous les défis de l'utilisateur connecté")
@@ -51,7 +52,7 @@ public class GestionDefiController {
     })
     @GetMapping("/voir-mes-defis")
     public List<DefiPersonne> findAllByPersonneConnecte() {
-        return gestionDefiPersonneInterface.findAllByPersonneConnecte();
+        return defiPersonneInterface.findAllByPersonneConnecte();
     }
 
     @Operation(summary = "Créer un défi")
@@ -62,8 +63,9 @@ public class GestionDefiController {
     })
     @PostMapping()
     @Secured("ADMIN")
+    @ResponseStatus(HttpStatus.CREATED)
     public Defi creerDefi(@RequestBody Defi defi) {
-        return gestionDefiInterface.save(defi);
+        return defiInterface.save(defi);
     }
 
     @Operation(summary = "Met à jour un défi")
@@ -75,7 +77,7 @@ public class GestionDefiController {
     @PutMapping
     @Secured("ADMIN")
     public Defi update(@RequestBody Defi defi) {
-        return gestionDefiInterface.update(defi);
+        return defiInterface.update(defi);
     }
 
     @Operation(summary = "Trouver un défi via son Id")
@@ -89,7 +91,7 @@ public class GestionDefiController {
     })
     @GetMapping("{idDefi}")
     public Defi findById(@Parameter(description = "Id du défi à afficher") @PathVariable Long idDefi) {
-        return gestionDefiInterface.findById(idDefi);
+        return defiInterface.findById(idDefi);
     }
 
     @Operation(summary = "Supprimer un défi via son Id")
@@ -102,7 +104,7 @@ public class GestionDefiController {
     @DeleteMapping("{idDefi}")
     @Secured("ADMIN")
     public void deleteById(@Parameter(description = "Id du défi à supprimer") @PathVariable Long idDefi) {
-        gestionDefiInterface.deleteById(idDefi);
+        defiInterface.deleteById(idDefi);
     }
 
     @Operation(summary="Un utilisateur s'ajoute un défi à sa liste de défis")
@@ -112,8 +114,10 @@ public class GestionDefiController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "défi introuvable")
     })
-    public List<DefiPersonne> ajouterDefi(@PathVariable Long id)
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("{idDefi}/ajouter-defi")
+    public List<DefiPersonne> ajouterDefi(@Parameter(description = "Id du défi à ajouter") @PathVariable Long idDefi)
     {
-        return gestionDefiPersonneInterface.ajouterDefi(id);
+        return defiPersonneInterface.ajouterDefi(idDefi);
     }
 }

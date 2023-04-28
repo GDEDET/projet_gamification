@@ -5,6 +5,7 @@ DOCKER = docker
 
 # Docker containers
 MAVEN_CONT = $(DOCKER) exec -it projet_gamification-maven-1
+DB_CONT = $(DOCKER) exec -it projet_gamification-db-1
 
 # Executables
 MAVEN      = $(MAVEN_CONT) mvn
@@ -32,9 +33,15 @@ down: ## Stop the docker hub
 logs: ## Show live logs
 	@$(DOCKER_COMP) logs --tail=0 --follow
 
-sh: ## Connect to the MAVEN container
+sh-maven: ## Connect to the MAVEN container
 	@$(MAVEN_CONT) sh
+
+sh-db:
+	@$(DB_CONT) sh
 
 mvn:
 	@$(eval c ?=)
 	@$(MAVEN) $(c)
+
+mvn-test:
+	mvn clean test -Dtest=$(c)

@@ -1,7 +1,7 @@
 package fr.neosoft.todogame.taches;
 
-import fr.neosoft.todogame.defis.GestionDefiInterface;
-import fr.neosoft.todogame.defis_personnes.GestionDefiPersonneInterface;
+import fr.neosoft.todogame.defis.DefiInterface;
+import fr.neosoft.todogame.defis_personnes.DefiPersonneInterface;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
@@ -13,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,10 +28,10 @@ public class TacheServiceTest {
     private PersonneService personneService;
 
     @Mock
-    private GestionDefiInterface gestionDefiInterface;
+    private DefiInterface defiInterface;
 
     @Mock
-    private GestionDefiPersonneInterface gestionDefiPersonneInterface;
+    private DefiPersonneInterface defiPersonneInterface;
 
     @Mock
     private GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
