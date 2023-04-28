@@ -103,5 +103,6 @@ public class TacheServiceTest {
         //Assert personne
         assertEquals(this.personne.getTaches().get(this.personne.getTaches().size() - 1), tache);
         verify(personneService, times(1)).save(this.personne);
+        assertEquals(Tache.class, tache.getClass());
     }
 }

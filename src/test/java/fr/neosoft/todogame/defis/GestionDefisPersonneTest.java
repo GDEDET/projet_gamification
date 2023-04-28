@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class GestionDefisPersonneTest {
@@ -29,6 +29,9 @@ public class GestionDefisPersonneTest {
 
     @Mock
     DefiRepository defiRepository;
+
+    @Mock
+    DefiPersonneRepository defiPersonneRepository;
 
     @Mock
     GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
@@ -48,7 +51,7 @@ public class GestionDefisPersonneTest {
     public void setUp()
     {
         this.personne = PersonneData.getNewPersonne();
-        DefiData.addListDefiPersonneToPersonne(personne);
+        DefiData.addListDefiPersonneToPersonne(this.personne);
     }
 
     @DisplayName("findAllByPersonneConnecte retourne liste de DefiPersonne")
@@ -66,92 +69,80 @@ public class GestionDefisPersonneTest {
         assertEquals(listDefiPersonneReturned, listDefiPersonne);
     }
 
-    @DisplayName("incrementerNbTachesTerminees si défi AVEC un objectif de taches")
+    @DisplayName("incrementerNbTachesTerminees si défi avec objectif de taches")
     @Test
-    public void incrementerNbTachesTerminees_shouldIncrementNbTachesTerminees()
+    public void incrementerNbTachesTerminees_shouldIncrementSeulementSiObjectifTaches()
     {
-        // Arrange
-        List<DefiPersonne> listDefiPersonne = personne.getDefisARealiser();
-
         // Act
+        gestionDefiPersonneService.incrementerNbTachesTerminees(personne);
         gestionDefiPersonneService.incrementerNbTachesTerminees(personne);
 
         // Assert
-        for (DefiPersonne defiPersonne : listDefiPersonne) {
-            if (defiPersonne.getDefi().getNbTachesObjectif() > 0) {
-                assertEquals(defiPersonne.getNbTachesTerminees(), 1);
-            }
-        }
-
-        gestionDefiPersonneService.incrementerNbTachesTerminees(personne);
-
-        for (DefiPersonne defiPersonne : listDefiPersonne) {
-            if (defiPersonne.getDefi().getNbTachesObjectif() > 0) {
-                assertEquals(defiPersonne.getNbTachesTerminees(), 2);
-            }
-        }
+        assertEquals(2, personne.getDefisARealiser().get(0).getNbTachesTerminees());
+        assertEquals(0, personne.getDefisARealiser().get(1).getNbTachesTerminees());
+        assertEquals(2, personne.getDefisARealiser().get(2).getNbTachesTerminees());
+        assertEquals(2, personne.getDefisARealiser().get(3).getNbTachesTerminees());
     }
 
-    @DisplayName("incrementerNbTachesTerminees si défi SANS objectif de taches")
+    @DisplayName("incrementerNbTachesTerminees doit terminer le défi si objectif atteint")
     @Test
-    public void incrementerNbTachesTerminees_should_NOT_IncrementNbTachesTerminees()
+    public void incrementerNbTachesTerminees_shouldTerminerDefiSiObjectifAtteint()
     {
-        // Arrange
-        List<DefiPersonne> listDefiPersonne = personne.getDefisARealiser();
-
         // Act
+        gestionDefiPersonneService.incrementerNbTachesTerminees(personne);
+        gestionDefiPersonneService.incrementerNbTachesTerminees(personne);
         gestionDefiPersonneService.incrementerNbTachesTerminees(personne);
 
         // Assert
-        for (DefiPersonne defiPersonne : listDefiPersonne) {
-            if (defiPersonne.getDefi().getNbTachesObjectif() == 0) {
-                assertEquals(defiPersonne.getNbTachesTerminees(), 0);
-            }
-        }
+        assertEquals(0, personne.getDefisARealiser().get(0).getNbTachesTerminees());
+        assertEquals(3, personne.getDefisARealiser().get(1).getNbTachesTerminees());
+        assertEquals(3, personne.getDefisARealiser().get(2).getNbTachesTerminees());
+
+        assertEquals(3, personne.getDefisARealiser().size());
     }
 
-    @DisplayName("incrementerNbPointsGagnes si défi AVEC objectif de points")
+    @DisplayName("incrementerNbPointsGagnes si défi avec objectif de point")
     @Test
-    public void incrementerNbPointsGagnes_shouldIncrementNbPointsGagnes()
-    {
-        // Arrange
-        List<DefiPersonne> listDefiPersonne = personne.getDefisARealiser();
-
+    void incrementerNbPointsGagnes_shouldIncrementSeulementSiObjectifPoint() {
         // Act
-        gestionDefiPersonneService.incrementerNbPointsGagnes(personne, 100);
+        gestionDefiPersonneService.incrementerNbPointsGagnes(personne, 150);
 
         // Assert
-        for (DefiPersonne defiPersonne : listDefiPersonne) {
-            if (defiPersonne.getDefi().getNbPointsObjectif() > 0) {
-                assertEquals(defiPersonne.getNbPointsGagnes(), 100);
-            }
-        }
-
-        gestionDefiPersonneService.incrementerNbPointsGagnes(personne, 200);
-
-        for (DefiPersonne defiPersonne : listDefiPersonne) {
-            if (defiPersonne.getDefi().getNbPointsObjectif() > 0) {
-                assertEquals(defiPersonne.getNbPointsGagnes(), 300);
-            }
-        }
+        // DEFI 1 : pas de points car par d'objectif de points
+        assertEquals(0, personne.getDefisARealiser().get(0).getNbPointsGagnes());
+        assertEquals(150, personne.getDefisARealiser().get(1).getNbPointsGagnes());
+        assertEquals(150, personne.getDefisARealiser().get(2).getNbPointsGagnes());
+        // DEFI 4 : pas de points car par d'objectif de points
+        assertEquals(0, personne.getDefisARealiser().get(3).getNbPointsGagnes());
     }
 
-    @DisplayName("incrementerNbPointsGagnes si défi SANS objectif de points")
+    @DisplayName("incrementerNbPointsGagnes doit terminer le défi si objectif atteint")
     @Test
-    public void incrementerNbPointsGagnes_should_NOT_IncrementNbPointsGagnes()
-    {
-        // Arrange
-        List<DefiPersonne> listDefiPersonne = personne.getDefisARealiser();
+    void incrementerNbPointsGagnes_shouldTerminerDefiSiObjectifAtteint() {
+        // Act 1
+        gestionDefiPersonneService.incrementerNbPointsGagnes(personne, 150);
 
-        // Act
-        gestionDefiPersonneService.incrementerNbPointsGagnes(personne, 100);
+        // Assert 1
+        assertEquals(0, personne.getDefisARealiser().get(0).getNbPointsGagnes());
+        assertEquals(150, personne.getDefisARealiser().get(1).getNbPointsGagnes());
+        assertEquals(150, personne.getDefisARealiser().get(2).getNbPointsGagnes());
+        assertEquals(0, personne.getDefisARealiser().get(3).getNbPointsGagnes());
 
-        // Assert
-        for (DefiPersonne defiPersonne : listDefiPersonne) {
-            if (defiPersonne.getDefi().getNbPointsObjectif() == 0) {
-                assertEquals(defiPersonne.getNbPointsGagnes(), 0);
-            }
-        }
+        // Toujours 4 défis
+        assertEquals(4, personne.getDefisARealiser().size());
+
+        // Act 2
+        gestionDefiPersonneService.incrementerNbPointsGagnes(personne, 250);
+
+        // Assert 2 le DEFI 2 doit être terminé
+        // DEFI 1 : pas de points car par d'objectif de points
+        assertEquals(0, personne.getDefisARealiser().get(0).getNbPointsGagnes());
+        // DEFI 3 | 500 points, car 150 + 250 = 400 points et le DEFI 2 avait une récompense de 100 points
+        assertEquals(500, personne.getDefisARealiser().get(1).getNbPointsGagnes());
+        // DEFI 4 : pas de points car par d'objectif de points
+        assertEquals(0, personne.getDefisARealiser().get(2).getNbPointsGagnes());
+
+        assertEquals(3, personne.getDefisARealiser().size());
     }
 
     @DisplayName("ajouterDefi à une personne")
