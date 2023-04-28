@@ -85,7 +85,6 @@ class TacheControllerTest {
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].description").isString())
                 .andReturn();
-        System.out.println(mvcResult.getResponse());
         assertEquals("application/json",
                 mvcResult.getResponse().getContentType());
     }
@@ -98,7 +97,6 @@ class TacheControllerTest {
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].description").value("Tache 1"))
                 .andReturn();
-        System.out.println(mvcResult.getResponse());
         assertEquals("application/json",
                 mvcResult.getResponse().getContentType());
 
