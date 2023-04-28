@@ -1,5 +1,6 @@
 package fr.neosoft.todogame.recompenses;
 
+import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -12,6 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("recompenses")
 @Tag(name = "Recompense", description = "L'API des récompenses")
@@ -20,9 +23,18 @@ import org.springframework.web.bind.annotation.*;
 public class RecompenseController {
 
 	private final RecompenseService recompenseService;
+	private final RecompensePersonneInterface recompensePersonneInterface;
+	private final GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
 
-	public RecompenseController(RecompenseService recompenseService) {
+
+	public RecompenseController(
+			RecompenseService recompenseService,
+			RecompensePersonneInterface recompensePersonneInterface,
+			GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface
+	) {
 		this.recompenseService = recompenseService;
+		this.recompensePersonneInterface = recompensePersonneInterface;
+		this.gestionPersonneAuthentifieInterface = gestionPersonneAuthentifieInterface;
 	}
 
 	@Operation(summary = "Afficher toutes les récompenses")
@@ -84,5 +96,16 @@ public class RecompenseController {
 	@Secured("ADMIN")
 	public void deleteById(@Parameter(description = "Id de la récompense à supprimer") @PathVariable Long idRecompense) {
 		recompenseService.deleteById(idRecompense);
+	}
+
+	@Operation(summary = "Afficher les récompenses, qui sont des badges, de l'utilisateur authentifié")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Récompenses trouvées",
+					content = @Content( array = @ArraySchema(schema = @Schema(implementation = Recompense.class)))),
+			@ApiResponse(responseCode = "403", description = "Aucun utilisateur authentifié"),
+	})
+	@GetMapping("/personne")
+	public List<Recompense> getListeBadgePersonneAuthentifie() {
+		return recompensePersonneInterface.getListeBadgePersonneAuthentifie(gestionPersonneAuthentifieInterface.getPersonneAuthentifie());
 	}
 }

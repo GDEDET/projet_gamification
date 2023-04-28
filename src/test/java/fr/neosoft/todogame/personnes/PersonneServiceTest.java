@@ -42,16 +42,20 @@ public class PersonneServiceTest {
 
 	private Personne personne;
 
-	private Role rolePersonne = new Role(2L, "PERSONNE");
-	private Personne personne1 = new Personne("Bon","Jean","jeanBon@yopmail.fr","jeanBon","$2a$10$sEebmn5b2WV1jNXJtrTdOO0r.s1PCzdhuIN2K5jxqzSj25Kah1x/S",0);
-	private Personne personne2 = new Personne("Levant","Rose","roseLevant@yopmail.fr","roseLevant","$2a$10$aY/p62psOguGGn3HrIYGg.Ey/Eaaud.35mtbiwTi/m62Ct6XepdW.",1500);
-	private RegisterRequestDto registerRequestDto = new RegisterRequestDto("jeanBon", "jeanBon", "jeanBon@yopmail.fr", "Bon", "Jean");
+	private Role rolePersonne;
+	private Personne personne1;
+	private Personne personne2;
+	private RegisterRequestDto registerRequestDto;
 
 
 	@BeforeEach
 	public void setUp() {
 		this.personneService = new PersonneService(personneRepository, roleRepository, niveauRepository);
 		this.personneInterface = this.personneService;
+		rolePersonne = new Role(2L, "PERSONNE");
+		personne1 = new Personne("Bon","Jean","jeanBon@yopmail.fr","jeanBon","$2a$10$sEebmn5b2WV1jNXJtrTdOO0r.s1PCzdhuIN2K5jxqzSj25Kah1x/S",0);
+		personne2 = new Personne("Levant","Rose","roseLevant@yopmail.fr","roseLevant","$2a$10$aY/p62psOguGGn3HrIYGg.Ey/Eaaud.35mtbiwTi/m62Ct6XepdW.",1500);
+		registerRequestDto = new RegisterRequestDto("jeanBon", "jeanBon", "jeanBon@yopmail.fr", "Bon", "Jean");
 	}
 //
 //	@Test

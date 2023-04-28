@@ -22,16 +22,19 @@ public class Recompense {
     private String nomRecompense;
 
     @Column(name = "est_badge", nullable = false)
-    @NotBlank
     private Boolean estBadge;
 
     @Column(name = "point_gagne", nullable = false)
-    @NotBlank
     private int pointGagne;
 
     @ManyToOne
-    @MapsId("id")
-    @JoinColumn(name = "id")
-    private PrerequisRecompense prerequisRecompense;
+    @JoinColumn(name = "prerequis_recompense_id")
+    private PrerequisRecompense prerequisRecompense = null;
+
+    public Recompense (String nomRecompense, Boolean estBadge, int pointGagne) {
+        this.nomRecompense = nomRecompense;
+        this.estBadge = estBadge;
+        this.pointGagne = pointGagne;
+    }
 
 }
