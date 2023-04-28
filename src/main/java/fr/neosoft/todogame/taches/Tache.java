@@ -1,5 +1,6 @@
 package fr.neosoft.todogame.taches;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.neosoft.todogame.personnes.Personne;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,5 +42,6 @@ public class Tache {
 
     @ManyToOne
     @JoinColumn(name = "personne_id", nullable = false)
+    @JsonIgnore
     private Personne personne;
 }

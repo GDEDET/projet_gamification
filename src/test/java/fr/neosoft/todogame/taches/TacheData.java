@@ -21,7 +21,7 @@ public class TacheData {
         personne.setNomUtilisateur("mdupond");
         personne.setMotDePasse("motdepasse");
         personne.setNbPoints(0);
-        personne.setRoles(List.of(new Role(1L, "PERSONNE")));
+        personne.setRoles(List.of());
         return personne;
     }
     public static List<Tache> addListTaches(Personne personne) {
