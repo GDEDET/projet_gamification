@@ -100,12 +100,23 @@ public class RecompenseController {
 
 	@Operation(summary = "Afficher les récompenses, qui sont des badges, de l'utilisateur authentifié")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Récompenses trouvées",
+			@ApiResponse(responseCode = "200", description = "Récompenses badges trouvées",
+					content = @Content( array = @ArraySchema(schema = @Schema(implementation = Recompense.class)))),
+			@ApiResponse(responseCode = "403", description = "Aucun utilisateur authentifié"),
+	})
+	@GetMapping("/badges/personne")
+	public List<Recompense> getListeBadgePersonneAuthentifie() {
+		return recompensePersonneInterface.getListeRecompensesPersonne(gestionPersonneAuthentifieInterface.getPersonneAuthentifie(), true);
+	}
+
+	@Operation(summary = "Afficher les récompenses, qui sont des badges, de l'utilisateur authentifié")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Récompenses classiques trouvées",
 					content = @Content( array = @ArraySchema(schema = @Schema(implementation = Recompense.class)))),
 			@ApiResponse(responseCode = "403", description = "Aucun utilisateur authentifié"),
 	})
 	@GetMapping("/personne")
-	public List<Recompense> getListeBadgePersonneAuthentifie() {
-		return recompensePersonneInterface.getListeBadgePersonneAuthentifie(gestionPersonneAuthentifieInterface.getPersonneAuthentifie());
+	public List<Recompense> getListeRecompenseNonBadgePersonneAuthentifie() {
+		return recompensePersonneInterface.getListeRecompensesPersonne(gestionPersonneAuthentifieInterface.getPersonneAuthentifie(), false);
 	}
 }
