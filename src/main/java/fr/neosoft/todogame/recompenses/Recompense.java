@@ -3,6 +3,7 @@ package fr.neosoft.todogame.recompenses;
 import fr.neosoft.todogame.recompenses.prerequisrecompense.PrerequisRecompense;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -22,6 +23,7 @@ public class Recompense {
     private String nomRecompense;
 
     @Column(name = "est_badge", nullable = false)
+    @NotNull
     private Boolean estBadge;
 
     @Column(name = "point_gagne", nullable = false)

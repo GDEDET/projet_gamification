@@ -7,10 +7,11 @@ import java.util.List;
 public interface RecompensePersonneInterface {
 
 	/**
-	 * Retourne la liste des récompenses de la personne authentifiée par type (badge ou récompense classique).
+	 * Retourne la liste des badges de la personne authentifiée.
 	 * @param personne
-	 * @return Liste des récompenses de la personne 
+	 * @return Liste des badges de la personne
 	 */
 	List<Recompense> getListeRecompensesPersonne(Personne personne, boolean estBadge);
 
+	void majRecompensePersonne(Personne personne);
 }

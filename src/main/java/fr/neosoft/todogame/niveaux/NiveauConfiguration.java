@@ -18,10 +18,8 @@ public class NiveauConfiguration {
 	private void init(NiveauService service){
 		if(niveauRepository.count() == 0) {
 			int nbPointsRequis = 0;
-			Niveau niveau = new Niveau(1, nbPointsRequis);
-			niveauRepository.save(niveau);
 
-			for (int i = 2; i < 100; i++) {
+			for (int i = 1; i < 100; i++) {
 				// Utilisation d'un nombre généré aléatoirement
 				// Référence utilisée : https://info.clg.qc.ca/java/elements/generer-nombres-aleatoires
 				SecureRandom random = new SecureRandom();

@@ -1,5 +1,6 @@
 package fr.neosoft.todogame.recompenses.prerequisrecompense;
 
+import fr.neosoft.todogame.niveaux.Niveau;
 import fr.neosoft.todogame.recompenses.Recompense;
 import fr.neosoft.todogame.taches.Tache;
 import jakarta.persistence.*;
@@ -33,6 +34,10 @@ public class PrerequisRecompense {
 	// Correspond au jalon d'une tâche
 	@Column(name = "jalon_respecte")
 	private boolean jalonRespecte;
+
+	@ManyToOne
+	@JoinColumn(name = "niveau_id", nullable = false)
+	private Niveau niveau;
 
 	@OneToMany
 	@ToString.Exclude

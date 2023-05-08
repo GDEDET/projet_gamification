@@ -119,4 +119,6 @@ public class RecompenseController {
 	public List<Recompense> getListeRecompenseNonBadgePersonneAuthentifie() {
 		return recompensePersonneInterface.getListeRecompensesPersonne(gestionPersonneAuthentifieInterface.getPersonneAuthentifie(), false);
 	}
+
+	
 }
