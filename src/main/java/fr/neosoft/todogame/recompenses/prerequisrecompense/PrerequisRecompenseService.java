@@ -16,9 +16,4 @@ public class PrerequisRecompenseService extends CRUDService<PrerequisRecompense>
         super(repository);
         this.prerequisRecompenseRepository = prerequisRecompenseRepository;
     }
-
-    @Override
-    public List<PrerequisRecompense> getPrerequisRecompenseByNiveau(Niveau niveau) {
-        return prerequisRecompenseRepository.getPrerequisRecompenseByNiveau(niveau);
-    }
 }

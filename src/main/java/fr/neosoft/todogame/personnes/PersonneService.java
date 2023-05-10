@@ -114,7 +114,12 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
         return this.personneRepository.findAllByOrderByTachesRealiseesDesc();
     }
 
-    private PersonneNiveauDto personneToPersonneNiveauDto(Personne personne) {
+	@Override
+	public int nbTachesTermine(Personne personne) {
+		return this.personneRepository.nbTachesTermine(personne);
+	}
+
+	private PersonneNiveauDto personneToPersonneNiveauDto(Personne personne) {
         String nomUtilisateur = personne.getNomUtilisateur();
         Integer nbPoints = personne.getNbPoints();
         Niveau niveauPersonne = this.getNiveauPersonne(personne);

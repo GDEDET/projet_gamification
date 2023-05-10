@@ -1,10 +1,14 @@
 package fr.neosoft.todogame.recompenses;
 
+import fr.neosoft.todogame.niveaux.Niveau;
 import fr.neosoft.todogame.recompenses.prerequisrecompense.PrerequisRecompense;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,8 +34,12 @@ public class Recompense {
     private int pointGagne;
 
     @ManyToOne
-    @JoinColumn(name = "prerequis_recompense_id")
-    private PrerequisRecompense prerequisRecompense = null;
+    @JoinColumn(name = "niveau_id", nullable = false)
+    private Niveau niveau;
+
+    @OneToMany
+    @ToString.Exclude
+    private List<PrerequisRecompense> prerequisRecompenses = new ArrayList<>();
 
     public Recompense (String nomRecompense, Boolean estBadge, int pointGagne) {
         this.nomRecompense = nomRecompense;

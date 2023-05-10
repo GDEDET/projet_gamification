@@ -31,15 +31,7 @@ public class PrerequisRecompense {
 	@Column(name = "date_realisation")
 	private LocalDate dateEcheance;
 
-	// Correspond au jalon d'une tâche
-	@Column(name = "jalon_respecte")
-	private boolean jalonRespecte;
-
 	@ManyToOne
-	@JoinColumn(name = "niveau_id", nullable = false)
-	private Niveau niveau;
-
-	@OneToMany
-	@ToString.Exclude
-	private List<Recompense> recompenses = new ArrayList<>();
+	@JoinColumn(name = "recompense_id")
+	private Recompense recompense = null;
 }
