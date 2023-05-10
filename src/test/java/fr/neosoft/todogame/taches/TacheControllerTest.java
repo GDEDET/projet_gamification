@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
 class TacheControllerTest {
 
@@ -81,6 +82,7 @@ class TacheControllerTest {
     }
 
     @Test
+    @Order(1)
     @DisplayName("Test de sécurité - accès interdit")
     public void givenNoToken_whenGetSecureRequest_thenUnauthorized() throws Exception {
         mockMvc.perform(get("/taches"))
@@ -88,6 +90,7 @@ class TacheControllerTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("Trouver toutes les taches de l'application")
     void findAll() throws Exception {
         String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
@@ -101,6 +104,7 @@ class TacheControllerTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("Trouver toutes les taches de l'utilisateur connecté")
     void findAllByUser() throws Exception {
         String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
@@ -115,6 +119,7 @@ class TacheControllerTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("Creer une tache")
     void creerTache() throws Exception {
         String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
@@ -146,6 +151,7 @@ class TacheControllerTest {
     }
 
     @Test
+    @Order(5)
     @DisplayName("Trouver une tache par son id")
     void findById() throws Exception {
         String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
@@ -160,6 +166,7 @@ class TacheControllerTest {
     }
 
     @Test
+    @Order(6)
     @DisplayName("Supprimer une tâche via son id")
     void deleteById() throws Exception {
         String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
@@ -172,6 +179,7 @@ class TacheControllerTest {
     }
 
     @Test
+    @Order(7)
     @DisplayName("Terminer une tâche")
     void terminerTache() throws Exception {
         String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
