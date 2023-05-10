@@ -29,4 +29,10 @@ public interface GestionTacheInterface extends CRUDInterface<Tache> {
      * @return la tâche terminée
      */
     Tache terminerTache(Long tacheId);
+
+    /**
+     * Permet de supprimer une tâche via son id en gérant le retrait dans la liste de tâche de la personne associée
+     * @param tacheId
+     */
+    void supprimerTacheParId(Long tacheId);
 }

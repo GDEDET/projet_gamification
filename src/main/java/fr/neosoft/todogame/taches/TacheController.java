@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,7 @@ public class TacheController {
                             schema = @Schema(implementation = Tache.class))})
     })
     @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
     public Tache creerTache(@RequestBody TacheDto tacheDto) {
         return gestionTacheInterface.creerTache(this.gestionPersonneAuthentifieInterface.getPersonneAuthentifie(), tacheDto);
     }
@@ -95,7 +97,7 @@ public class TacheController {
     })
     @DeleteMapping("{tacheId}")
     public void deleteById(@Parameter(description = "Id de la tâche à supprimer") @PathVariable Long tacheId) {
-        gestionTacheInterface.deleteById(tacheId);
+        gestionTacheInterface.supprimerTacheParId(tacheId);
     }
 
     @Operation(summary = "Valider une tâche")

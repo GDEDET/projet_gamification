@@ -41,6 +41,15 @@ public class GestionTacheService extends CRUDService<Tache> implements GestionTa
     }
 
     @Override
+    public void supprimerTacheParId(Long tacheId) {
+        Tache tache = this.findById(tacheId);
+        Personne personneAssocie = tache.getPersonne();
+        personneAssocie.getTaches().remove(tache);
+        this.personneService.save(personneAssocie);
+        this.deleteById(tacheId);
+    }
+
+    @Override
     public Tache creerTache(Personne personne, TacheDto tacheDto) {
         Tache nouvelleTache = this.nouvelleTacheAPartirDuDto(tacheDto);
         nouvelleTache.setPersonne(personne);
