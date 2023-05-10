@@ -1,5 +1,6 @@
 package fr.neosoft.todogame.personnes;
 
+import fr.neosoft.todogame.niveaux.Niveau;
 import lombok.*;
 
 @Getter
@@ -10,5 +11,5 @@ import lombok.*;
 public class PersonneNiveauDto {
 	private String nomUtilisateur;
 	private int nbPoints;
-	private int niveau;
+	private Niveau niveau;
 }

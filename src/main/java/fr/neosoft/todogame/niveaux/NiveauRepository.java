@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface NiveauRepository extends CrudRepository<Niveau, Long> {
 
-	@Query("SELECT MAX(niveauAtteint) FROM Niveau WHERE nbPointsRequis <= ?1")
-	Integer findByNbPoints(int nbPoints);
+	@Query("FROM Niveau WHERE niveauAtteint = (SELECT MIN(niveauAtteint) FROM Niveau WHERE nbPointsRequis > ?1)")
+	Niveau findByNbPoints(int nbPoints);
 }
