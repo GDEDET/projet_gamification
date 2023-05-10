@@ -131,10 +131,10 @@ class TacheControllerTest {
 
     @Test
     void update() throws Exception {
+        //TODO A fix en ajoutant le champs personneId au Json
 //        String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
 //        Tache tache = this.tacheRepository.findAllByDescription("Test").get(0);
-//        tache.setDescription("Test modifie");
-//        System.out.println(tache.toString());
+//
 //
 //        MvcResult mvcResult = this.mockMvc.perform(put("/taches").header("Authorization", "Bearer " + token).contentType(MediaType.APPLICATION_JSON)
 //                        .content(asJsonString(tache)))
@@ -146,23 +146,43 @@ class TacheControllerTest {
     }
 
     @Test
+    @DisplayName("Trouver une tache par son id")
     void findById() throws Exception {
         String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/taches/{id}", 1)
                         .accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].description").isString())
+                .andExpect(jsonPath("$.description").isString())
                 .andReturn();
         assertEquals("application/json",
                 mvcResult.getResponse().getContentType());
     }
 
     @Test
-    void deleteById() {
+    @DisplayName("Supprimer une tâche via son id")
+    void deleteById() throws Exception {
+        String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/taches/{id}", 1)
+                        .accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andDo(print()).andExpect(status().isOk())
+                .andReturn();
+        assertFalse(tacheRepository.findById(1L).isPresent());
     }
 
     @Test
-    void terminerTache() {
+    @DisplayName("Terminer une tâche")
+    void terminerTache() throws Exception {
+        String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
+                        .put("/taches/{id}/terminer", 2)
+                        .accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.statut").value("TERMINE"))
+                .andExpect(jsonPath("$.dateRealisation").isString())
+                .andReturn();
+        assertEquals("application/json",
+                mvcResult.getResponse().getContentType());
     }
 }

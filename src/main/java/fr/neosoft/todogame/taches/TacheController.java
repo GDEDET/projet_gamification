@@ -97,7 +97,7 @@ public class TacheController {
     })
     @DeleteMapping("{tacheId}")
     public void deleteById(@Parameter(description = "Id de la tâche à supprimer") @PathVariable Long tacheId) {
-        gestionTacheInterface.deleteById(tacheId);
+        gestionTacheInterface.supprimerTacheParId(tacheId);
     }
 
     @Operation(summary = "Valider une tâche")
