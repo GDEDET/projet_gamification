@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,7 @@ public class PersonneController {
     })
     @PostMapping
     @Secured("ADMIN")
+    @ResponseStatus(HttpStatus.CREATED)
     public Personne save(@RequestBody RegisterRequestDto entity) {
         return personneInterface.creerPersonne(entity);
     }
