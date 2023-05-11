@@ -7,6 +7,7 @@ import fr.neosoft.todogame.exceptions.NotFoundException;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,7 +65,7 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Personne utilisateur = repository.findByEmail(email);
         if (utilisateur == null){
-            throw new NotFoundException("Aucun utilisateur ne possède le mail "+email);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Aucun utilisateur ne possède le mail "+email);
         }
         return new User(utilisateur.getNomUtilisateur(), utilisateur.getMotDePasse(), utilisateur.getRoles());
     }

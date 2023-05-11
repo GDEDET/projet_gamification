@@ -1,6 +1,6 @@
 package fr.neosoft.todogame.taches;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.neosoft.todogame.TestUtils;
 import fr.neosoft.todogame.auth.JwtTokenUtil;
 import fr.neosoft.todogame.auth.roles.RoleRepository;
 import fr.neosoft.todogame.personnes.Personne;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -58,14 +56,6 @@ class TacheControllerTest {
 
     private Tache tache;
 
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @BeforeEach
     public void setupMockMvc(){
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).apply(springSecurity()).build();
@@ -98,7 +88,7 @@ class TacheControllerTest {
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].description").isString())
                 .andReturn();
-        System.out.println(mvcResult.getResponse());
+
         assertEquals("application/json",
                 mvcResult.getResponse().getContentType());
     }
@@ -112,7 +102,7 @@ class TacheControllerTest {
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].description").value("Tache 1"))
                 .andReturn();
-        System.out.println(mvcResult.getResponse());
+
         assertEquals("application/json",
                 mvcResult.getResponse().getContentType());
 
@@ -126,7 +116,7 @@ class TacheControllerTest {
         TacheDto tacheDto = new TacheDto("Test", null, Priorite.MOYENNE, Difficulte.FACILE);
 
         MvcResult mvcResult = this.mockMvc.perform(post("/taches").header("Authorization", "Bearer " + token).contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(tacheDto)))
+                .content(TestUtils.asJsonString(tacheDto)))
                 .andDo(print()).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.description").value("Test"))
                 .andReturn();
@@ -142,7 +132,7 @@ class TacheControllerTest {
 //
 //
 //        MvcResult mvcResult = this.mockMvc.perform(put("/taches").header("Authorization", "Bearer " + token).contentType(MediaType.APPLICATION_JSON)
-//                        .content(asJsonString(tache)))
+//                        .content(TestUtils.asJsonString(tache)))
 //                .andDo(print()).andExpect(status().isCreated())
 //                .andExpect(jsonPath("$.description").value("Test modifie"))
 //                .andReturn();
