@@ -3,6 +3,7 @@ package fr.neosoft.todogame.personnes;
 import fr.neosoft.todogame.TestUtils;
 import fr.neosoft.todogame.auth.JwtTokenUtil;
 import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
+import fr.neosoft.todogame.taches.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,6 +44,9 @@ class PersonneControllerTest {
     private String token;
     @Autowired
     private PersonneRepository personneRepository;
+
+    @Autowired
+    private TacheRepository tacheRepository;
 
     @BeforeEach
     public void setupMockMvc(){
@@ -104,18 +110,55 @@ class PersonneControllerTest {
     }
 
     @Test
-    void getInfosNiveauPersonne() {
+    @DisplayName("Retourne le niveau d'une personne")
+    void getInfosNiveauPersonne() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(get("/personnes/niveau").header("Authorization", "Bearer " + this.token))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.niveau").value("1"))
+                .andReturn();
+
+        assertEquals("application/json",
+                mvcResult.getResponse().getContentType());
     }
 
     @Test
-    void getClassementParPoints() {
+    @DisplayName("Recupere le classement par Points")
+    void getClassementParPoints() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(get("/personnes/classement/points").header("Authorization", "Bearer " + this.token))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].nom").value("admin"))
+                .andReturn();
+
+        assertEquals("application/json",
+                mvcResult.getResponse().getContentType());
     }
 
     @Test
-    void getClassementParNiveau() {
+    @DisplayName("Recupere le classement par Niveaux")
+    void getClassementParNiveau() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(get("/personnes/classement/niveaux").header("Authorization", "Bearer " + this.token))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].nomUtilisateur").value("admin"))
+                .andReturn();
+
+        assertEquals("application/json",
+                mvcResult.getResponse().getContentType());
     }
 
     @Test
-    void getClassementParRealisation() {
+    @DisplayName("Recupere le classement par Réalisations")
+    void getClassementParRealisation() throws Exception {
+        Personne personne = this.personneRepository.findByEmail("admin@yopmail.com");
+        Tache tache = new Tache(5L, "test", null, new Date(), Priorite.MOYENNE, Difficulte.FACILE, Statut.TERMINE, 50, personne);
+        tache = this.tacheRepository.save(tache);
+        personne.setTaches(List.of(tache));
+        this.personneRepository.save(personne);
+        MvcResult mvcResult = this.mockMvc.perform(get("/personnes/classement/realisations").header("Authorization", "Bearer " + this.token))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].nom").value("admin"))
+                .andReturn();
+
+        assertEquals("application/json",
+                mvcResult.getResponse().getContentType());
     }
 }
