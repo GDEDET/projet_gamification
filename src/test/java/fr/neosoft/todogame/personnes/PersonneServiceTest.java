@@ -10,13 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,6 +43,7 @@ public class PersonneServiceTest {
 	private Role rolePersonne;
 	private Personne personne1;
 	private Personne personne2;
+	private Personne personne3;
 	private RegisterRequestDto registerRequestDto;
 	private Niveau niveau1;
 
@@ -55,8 +53,9 @@ public class PersonneServiceTest {
 		this.personneService = new PersonneService(personneRepository, roleRepository, niveauRepository);
 		this.personneInterface = this.personneService;
 		rolePersonne = new Role(2L, "PERSONNE");
-		personne1 = new Personne("Bon","Jean","jeanBon@yopmail.fr","jeanBon","$2a$10$sEebmn5b2WV1jNXJtrTdOO0r.s1PCzdhuIN2K5jxqzSj25Kah1x/S",0);
-		personne2 = new Personne("Levant","Rose","roseLevant@yopmail.fr","roseLevant","$2a$10$aY/p62psOguGGn3HrIYGg.Ey/Eaaud.35mtbiwTi/m62Ct6XepdW.",1500);
+		personne1 = PersonneData.DUPOND_MICHEL;
+		personne3 = PersonneData.BON_JEAN;
+		personne2 = new Personne(6L,"Levant","Rose","roseLevant@yopmail.fr","roseLevant","$2a$10$aY/p62psOguGGn3HrIYGg.Ey/Eaaud.35mtbiwTi/m62Ct6XepdW.",1500);
 		registerRequestDto = new RegisterRequestDto("jeanBon", "jeanBon", "jeanBon@yopmail.fr", "Bon", "Jean");
 		niveau1 = new Niveau(1, 400);
 	}

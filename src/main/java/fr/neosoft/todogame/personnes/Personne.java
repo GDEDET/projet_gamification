@@ -70,6 +70,7 @@ public class Personne {
     private List<Recompense> recompenses = new ArrayList<>();
 
     public Personne (
+            Long id,
             String nom,
             String prenom,
             String email,
@@ -77,6 +78,7 @@ public class Personne {
             String motDePasse,
             int nbPoints
     ){
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -84,5 +86,4 @@ public class Personne {
         this.motDePasse = motDePasse;
         this.nbPoints = nbPoints;
     }
-
 }

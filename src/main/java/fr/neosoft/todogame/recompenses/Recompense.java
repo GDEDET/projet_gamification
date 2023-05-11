@@ -34,7 +34,7 @@ public class Recompense {
     private int pointGagne;
 
     @ManyToOne
-    @JoinColumn(name = "niveau_id", nullable = false)
+    @JoinColumn(name = "niveau_id")
     private Niveau niveau;
 
     @OneToMany

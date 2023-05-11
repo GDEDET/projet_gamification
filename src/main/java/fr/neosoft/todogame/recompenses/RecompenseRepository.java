@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RecompenseRepository extends JpaRepository<Recompense, Long> {
-	@Query("FROM Recompense WHERE niveau = ?1")
+	@Query("FROM Recompense WHERE niveau IS NULL OR niveau = ?1")
 	List<Recompense> findRecompenseByNiveau(Niveau niveau);
 }

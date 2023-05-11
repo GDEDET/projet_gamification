@@ -50,7 +50,7 @@ public class DefiPersonneTest {
     @BeforeEach
     public void setUp()
     {
-        this.personne = PersonneData.getNewPersonne();
+        this.personne = PersonneData.DUPOND_MICHEL;
         DefiData.addListDefiPersonneToPersonne(this.personne);
     }
 

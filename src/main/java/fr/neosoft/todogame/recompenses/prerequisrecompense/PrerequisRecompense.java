@@ -1,14 +1,10 @@
 package fr.neosoft.todogame.recompenses.prerequisrecompense;
 
-import fr.neosoft.todogame.niveaux.Niveau;
 import fr.neosoft.todogame.recompenses.Recompense;
-import fr.neosoft.todogame.taches.Tache;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

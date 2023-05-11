@@ -1,19 +1,12 @@
 package fr.neosoft.todogame.recompenses;
 
-import fr.neosoft.todogame.exceptions.NotFoundException;
 import fr.neosoft.todogame.niveaux.Niveau;
 import fr.neosoft.todogame.personnes.Personne;
-import fr.neosoft.todogame.personnes.PersonneInterface;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.recompenses.prerequisrecompense.PrerequisRecompense;
-import fr.neosoft.todogame.recompenses.prerequisrecompense.PrerequisRecompenseInterface;
-import fr.neosoft.todogame.recompenses.prerequisrecompense.PrerequisRecompenseRepository;
-import fr.neosoft.todogame.taches.Tache;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,11 +21,11 @@ public class RecompensePersonneService implements RecompensePersonneInterface {
 
 	@Override
 	public List<Recompense> getListeRecompensesPersonne(@NotNull Personne personne, @NotNull boolean estBadge) {
-		List<Recompense> badges = personne.getRecompenses().stream().filter(
+		List<Recompense> recompenses = personne.getRecompenses().stream().filter(
 				recompense -> recompense.getEstBadge().equals(estBadge)
 			).collect(Collectors.toList());
 
-		return badges;
+		return recompenses;
 	}
 
 	@Override
