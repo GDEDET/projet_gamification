@@ -2,9 +2,6 @@ package fr.neosoft.todogame.taches;
 
 import fr.neosoft.todogame.TestUtils;
 import fr.neosoft.todogame.auth.JwtTokenUtil;
-import fr.neosoft.todogame.auth.roles.RoleRepository;
-import fr.neosoft.todogame.personnes.Personne;
-import fr.neosoft.todogame.personnes.PersonneRepository;
 import jakarta.servlet.ServletContext;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.mock.web.MockServletContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -32,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
+@ActiveProfiles("test")
 class TacheControllerTest {
 
     @Autowired
@@ -43,16 +42,7 @@ class TacheControllerTest {
     @Autowired
     private TacheRepository tacheRepository;
 
-    @Autowired
-    private PersonneRepository personneRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-
     private MockMvc mockMvc;
-
-    private List<Tache> tachesList;
-
-    private Personne personne;
 
     private Tache tache;
 
