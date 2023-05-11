@@ -1,12 +1,12 @@
 package fr.neosoft.todogame.personnes;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class PersonneNiveauDto {
 	private String nomUtilisateur;
 	private int nbPoints;
