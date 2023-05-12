@@ -104,6 +104,7 @@ public class DefiController {
     @DeleteMapping("{idDefi}")
     @Secured("ADMIN")
     public void deleteById(@Parameter(description = "Id du défi à supprimer") @PathVariable Long idDefi) {
+        defiPersonneInterface.deleteAllByDefi(idDefi);
         defiInterface.deleteById(idDefi);
     }
 

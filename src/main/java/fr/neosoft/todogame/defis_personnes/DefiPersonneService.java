@@ -6,6 +6,7 @@ import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneInterface;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,9 +80,17 @@ public class DefiPersonneService implements DefiPersonneInterface {
     public List<DefiPersonne> ajouterDefi(Long id) {
         Defi defi = defiInterface.findById(id);
         Personne personne = gestionPersonneAuthentifieInterface.getPersonneAuthentifie();
-        personne.getDefisARealiser().add(new DefiPersonne(personne, defi));
+        DefiPersonne defiPersonne = new DefiPersonne(personne, defi);
+        this.defiPersonneRepository.save(defiPersonne);
+        personne.getDefisARealiser().add(defiPersonne);
         this.personneInterface.save(personne);
         return personne.getDefisARealiser();
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByDefi(Long defiId) {
+        this.defiPersonneRepository.deleteAllByDefi(defiInterface.findById(defiId));
     }
 
     /**

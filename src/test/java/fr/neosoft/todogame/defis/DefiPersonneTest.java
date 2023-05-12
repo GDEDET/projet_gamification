@@ -158,7 +158,7 @@ public class DefiPersonneTest {
 
         // Act
         List<DefiPersonne> defiARealiser = DefiPersonneService.ajouterDefi(defi.getId());
-
+        System.out.println(defiARealiser);
         // Assert
         assertEquals(defiARealiser.size(), 1);
         assertEquals(defiARealiser.get(0).getDefi(), defi);

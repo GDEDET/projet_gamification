@@ -30,4 +30,6 @@ public interface DefiPersonneInterface {
      * @return la liste des défis de l'utilisateur
      */
     List<DefiPersonne> ajouterDefi(Long id);
+
+    void deleteAllByDefi(Long defiId);
 }

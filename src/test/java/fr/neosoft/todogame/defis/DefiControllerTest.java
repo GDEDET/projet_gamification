@@ -147,7 +147,7 @@ public class DefiControllerTest {
     void deleteById() throws Exception {
         String token = tokenUtil.generateToken("admin@yopmail.com", Map.of());
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/defis/{id}", 1)
+                        .delete("/defis/{id}", DefiData.DEFI_1.getId())
                         .accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
                 .andDo(print()).andExpect(status().isOk())
                 .andReturn();
