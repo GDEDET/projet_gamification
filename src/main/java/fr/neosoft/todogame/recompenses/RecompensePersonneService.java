@@ -2,7 +2,7 @@ package fr.neosoft.todogame.recompenses;
 
 import fr.neosoft.todogame.niveaux.Niveau;
 import fr.neosoft.todogame.personnes.Personne;
-import fr.neosoft.todogame.personnes.PersonneService;
+import fr.neosoft.todogame.personnes.PersonneInterface;
 import fr.neosoft.todogame.recompenses.prerequisrecompense.PrerequisRecompense;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +17,21 @@ public class RecompensePersonneService implements RecompensePersonneInterface {
 
 	@Autowired
 	RecompenseRepository recompenseRepository;
-	PersonneService personneService;
+	@Autowired
+	PersonneInterface personneInterface;
 
 	@Override
 	public List<Recompense> getListeRecompensesPersonne(@NotNull Personne personne, @NotNull boolean estBadge) {
-		List<Recompense> recompenses = personne.getRecompenses().stream().filter(
+
+		return personne.getRecompenses().stream().filter(
 				recompense -> recompense.getEstBadge().equals(estBadge)
 			).collect(Collectors.toList());
-
-		return recompenses;
 	}
 
 	@Override
 	public void majRecompensePersonne(Personne personne) {
-		Niveau niveau = personneService.infosNiveauPersonne(personne).getNiveau();
-		int nbTachesTermine = personneService.nbTachesTermine(personne);
+		Niveau niveau = personneInterface.infosNiveauPersonne(personne).getNiveau();
+		int nbTachesTermine = personneInterface.nbTachesTermine(personne);
 		List<Recompense> listeRecompenses = recompenseRepository.findRecompenseByNiveau(niveau);
 
 		for(Recompense recompense : listeRecompenses) {
@@ -43,7 +43,7 @@ public class RecompensePersonneService implements RecompensePersonneInterface {
 						prerequisRecompense.getNbTaches() <= nbTachesTermine
 								&& prerequisRecompense.getNbPoints() <= personne.getNbPoints()
 				);
-				boolean estNullPrerequisRecompenseDateEcheance = prerequisRecompense.getDateEcheance().equals(null);
+				boolean estNullPrerequisRecompenseDateEcheance = prerequisRecompense.getDateEcheance() == null;
 
 				if ((estNullPrerequisRecompenseDateEcheance && testPrerequisRecompenseHorsDate) ||
 						(!estNullPrerequisRecompenseDateEcheance && prerequisRecompense.getDateEcheance().isAfter(LocalDate.now())
@@ -59,7 +59,7 @@ public class RecompensePersonneService implements RecompensePersonneInterface {
 			if (prerequisEstOk) {
 				personne.setNbPoints(recompense.getPointGagne());
 				personne.getRecompenses().add(recompense);
-				personneService.save(personne);
+				personneInterface.save(personne);
 			}
 		}
 	}
