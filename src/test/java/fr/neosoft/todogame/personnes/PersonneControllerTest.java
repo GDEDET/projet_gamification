@@ -114,7 +114,7 @@ class PersonneControllerTest {
     void getInfosNiveauPersonne() throws Exception {
         MvcResult mvcResult = this.mockMvc.perform(get("/personnes/niveau").header("Authorization", "Bearer " + this.token))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.niveau").value("1"))
+                .andExpect(jsonPath("$.niveau.niveauAtteint").value("1"))
                 .andReturn();
 
         assertEquals("application/json",

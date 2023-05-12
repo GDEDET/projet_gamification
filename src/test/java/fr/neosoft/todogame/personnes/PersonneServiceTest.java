@@ -89,9 +89,9 @@ public class PersonneServiceTest {
 	@Test
 	@DisplayName("Retourne un PersonneDto")
 	void infosNiveauPersonne() {
-		when(niveauRepository.findByNbPoints(0)).thenReturn(niveau1);
-		PersonneNiveauDto personneNiveauDto = new PersonneNiveauDto("jeanBon", 0, niveau1);
-		assertEquals(personneNiveauDto, this.personneService.infosNiveauPersonne(personne1));
+		when(niveauRepository.findByNbPoints(200)).thenReturn(niveau1);
+		PersonneNiveauDto personneNiveauDto = new PersonneNiveauDto("jeanBon", 200, niveau1);
+		assertEquals(personneNiveauDto, this.personneService.infosNiveauPersonne(personne3));
 	}
 
 }

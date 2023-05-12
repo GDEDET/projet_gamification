@@ -6,6 +6,8 @@ import fr.neosoft.todogame.defis_personnes.DefiPersonneService;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneData;
 import fr.neosoft.todogame.personnes.PersonneInterface;
+import fr.neosoft.todogame.recompenses.RecompensePersonneInterface;
+import fr.neosoft.todogame.recompenses.RecompensePersonneService;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,6 +43,9 @@ public class DefiPersonneTest {
 
     @Mock
     PersonneInterface personneInterface;
+
+    @Mock
+    RecompensePersonneInterface recompensePersonneInterface;
 
     @InjectMocks
     DefiPersonneService DefiPersonneService;
