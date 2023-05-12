@@ -6,12 +6,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@IdClass(PKDefiPersonne.class)
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(PKDefiPersonne.class)
 public class DefiPersonne {
     @ManyToOne
     @JoinColumn(name = "personne_id")

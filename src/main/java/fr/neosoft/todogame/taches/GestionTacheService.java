@@ -1,6 +1,6 @@
 package fr.neosoft.todogame.taches;
 
-import fr.neosoft.todogame.defis_personnes.GestionDefiPersonneInterface;
+import fr.neosoft.todogame.defis_personnes.DefiPersonneInterface;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.utils.CRUDService;
@@ -14,14 +14,14 @@ public class GestionTacheService extends CRUDService<Tache> implements GestionTa
 
     private final PersonneService personneService;
 
-    private final GestionDefiPersonneInterface gestionDefiPersonneInterface;
+    private final DefiPersonneInterface defiPersonneInterface;
 
     private final GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
 
-    public GestionTacheService(TacheRepository tacheRepository, PersonneService personneService, GestionDefiPersonneInterface gestionDefiPersonneInterface, GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface) {
+    public GestionTacheService(TacheRepository tacheRepository, PersonneService personneService, DefiPersonneInterface defiPersonneInterface, GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface) {
         super(tacheRepository);
         this.personneService = personneService;
-        this.gestionDefiPersonneInterface = gestionDefiPersonneInterface;
+        this.defiPersonneInterface = defiPersonneInterface;
         this.gestionPersonneAuthentifieInterface = gestionPersonneAuthentifieInterface;
     }
 
@@ -36,7 +36,7 @@ public class GestionTacheService extends CRUDService<Tache> implements GestionTa
 
         tache.setStatut(Statut.TERMINE);
         tache.setDateRealisation(new Date());
-        this.gestionDefiPersonneInterface.incrementerNbTachesTerminees(tache.getPersonne());
+        this.defiPersonneInterface.incrementerNbTachesTerminees(tache.getPersonne());
         return this.save(tache);
     }
 

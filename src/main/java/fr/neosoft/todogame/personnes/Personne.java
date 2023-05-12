@@ -1,5 +1,6 @@
 package fr.neosoft.todogame.personnes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.neosoft.todogame.auth.roles.Role;
 import fr.neosoft.todogame.defis_personnes.DefiPersonne;
 import fr.neosoft.todogame.groupes.Groupe;
@@ -22,11 +23,13 @@ public class Personne {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(name = "personne_id", nullable = false)
     private Long id;
+
     @Column(name = "nom", nullable = false, length = 50)
     @NotBlank
     private String nom;
+
     @Column(name = "prenom", nullable = false, length = 50)
     @NotBlank
     private String prenom;
@@ -56,8 +59,9 @@ public class Personne {
     @ToString.Exclude
     private List<Tache> taches = new ArrayList<>();
 
-    @OneToMany(mappedBy = "personne", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "personne")
     @ToString.Exclude
+    @JsonIgnore
     private List<DefiPersonne> defisARealiser = new ArrayList<>();
 
     public Personne (

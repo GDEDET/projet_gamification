@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY ./pom.xml ./pom.xml
 
-RUN mvn dependency:go-offlinegit
+RUN mvn dependency:go-offline
 
 COPY ./src ./src
 
