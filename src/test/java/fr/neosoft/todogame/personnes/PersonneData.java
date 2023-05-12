@@ -1,6 +1,7 @@
 package fr.neosoft.todogame.personnes;
 
 import fr.neosoft.todogame.auth.roles.Role;
+import fr.neosoft.todogame.niveaux.Niveau;
 import fr.neosoft.todogame.recompenses.Recompense;
 
 import java.util.List;
@@ -29,5 +30,8 @@ public class PersonneData {
         return personne;
     }
 
+    public static PersonneNiveauDto getPersonneNiveauDto(Personne personne, Niveau niveau) {
+        return new PersonneNiveauDto(personne.getNomUtilisateur(), personne.getNbPoints(), niveau);
+    }
 
 }

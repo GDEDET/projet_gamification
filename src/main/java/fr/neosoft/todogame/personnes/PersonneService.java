@@ -97,11 +97,7 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
         Iterable<Personne> listPersonnesParPointsDesc = this.personneRepository.findAllByOrderByNbPointsDesc();
         ArrayList<PersonneNiveauDto> listPersonnesDto = new ArrayList<>();
         for (Personne personne : listPersonnesParPointsDesc) {
-            listPersonnesDto.add(new PersonneNiveauDto(
-                    personne.getNomUtilisateur(),
-                    personne.getNbPoints(),
-                    this.getNiveauPersonne(personne)
-            ));
+            listPersonnesDto.add(this.personneToPersonneNiveauDto(personne));
         }
 
         return listPersonnesDto;

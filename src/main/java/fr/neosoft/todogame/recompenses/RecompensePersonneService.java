@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,7 @@ public class RecompensePersonneService implements RecompensePersonneInterface {
 
 		for(Recompense recompense : listeRecompenses) {
 			List<PrerequisRecompense> listePrerequisRecompense = recompense.getPrerequisRecompenses();
-			boolean prerequisEstOk = false;
+			boolean prerequisEstOk = true;
 
 			for (PrerequisRecompense prerequisRecompense : listePrerequisRecompense) {
 				boolean testPrerequisRecompenseHorsDate = (
@@ -56,9 +57,12 @@ public class RecompensePersonneService implements RecompensePersonneInterface {
 				}
 			}
 
-			if (prerequisEstOk) {
-				personne.setNbPoints(recompense.getPointGagne());
-				personne.getRecompenses().add(recompense);
+			if (prerequisEstOk && !personne.getRecompenses().contains(recompense)) {
+				int nouveauNbPointsPersonne = personne.getNbPoints() + recompense.getPointGagne();
+				personne.setNbPoints(nouveauNbPointsPersonne);
+				List<Recompense> newRecompenses = new ArrayList<>(personne.getRecompenses());
+				newRecompenses.add(recompense);
+				personne.setRecompenses(newRecompenses);
 				personneInterface.save(personne);
 			}
 		}
