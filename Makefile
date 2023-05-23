@@ -8,7 +8,7 @@ MAVEN_CONT = $(DOCKER) exec -it projet_gamification-maven-1
 DB_CONT = $(DOCKER) exec -it projet_gamification-db-1
 
 # Executables
-MAVEN      = $(MAVEN_CONT) mvn
+MAVEN = $(MAVEN_CONT) mvn
 
 # Misc
 .DEFAULT_GOAL = help
@@ -42,6 +42,12 @@ sh-db:
 mvn:
 	@$(eval c ?=)
 	@$(MAVEN) $(c)
+
+mvn-start:
+	@$(MAVEN_CONT) mvn package -DskipTests
+
+sbr:
+	@$(MAVEN_CONT) mvn spring-boot:run
 
 mvn-test:
 	mvn clean test -Dtest=$(c)
