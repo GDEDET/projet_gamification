@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +19,7 @@ class GestionGroupeServiceTest {
     GroupeRepository groupeRepository;
     PersonneInterface personneInterface;
 
-    Personne membre = new Personne(1L, "test", "test", "test@yopmail.com", "test.test", "123", 0, List.of(), new Groupe(), List.of(), List.of());
+    Personne membre = new Personne(1L, "test", "test", "test@yopmail.com", "test.test", "123", 0);
     Groupe groupe = new Groupe(1L, "groupe1", new Personne(), new ArrayList<>());
 
     @BeforeEach

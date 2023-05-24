@@ -6,7 +6,15 @@ import fr.neosoft.todogame.defis_personnes.DefiPersonneService;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneData;
 import fr.neosoft.todogame.personnes.PersonneInterface;
+import fr.neosoft.todogame.recompenses.RecompensePersonneInterface;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,12 +22,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DefiPersonneTest {
@@ -42,6 +44,9 @@ public class DefiPersonneTest {
     @Mock
     PersonneInterface personneInterface;
 
+    @Mock
+    RecompensePersonneInterface recompensePersonneInterface;
+
     @InjectMocks
     DefiPersonneService DefiPersonneService;
 
@@ -50,7 +55,7 @@ public class DefiPersonneTest {
     @BeforeEach
     public void setUp()
     {
-        this.personne = PersonneData.getNewPersonne();
+        this.personne = PersonneData.DUPOND_MICHEL;
         DefiData.addListDefiPersonneToPersonne(this.personne);
     }
 

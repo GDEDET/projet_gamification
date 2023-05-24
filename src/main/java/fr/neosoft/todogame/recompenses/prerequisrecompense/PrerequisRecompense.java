@@ -5,12 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name= "prerequis_recompense")
@@ -28,4 +26,8 @@ public class PrerequisRecompense {
 
 	@Column(name = "date_realisation")
 	private LocalDate dateEcheance;
+
+	@ManyToOne
+	@JoinColumn(name = "recompense_id")
+	private Recompense recompense = null;
 }

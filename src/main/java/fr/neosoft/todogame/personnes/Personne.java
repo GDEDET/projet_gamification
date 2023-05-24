@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.neosoft.todogame.auth.roles.Role;
 import fr.neosoft.todogame.defis_personnes.DefiPersonne;
 import fr.neosoft.todogame.groupes.Groupe;
+import fr.neosoft.todogame.recompenses.Recompense;
 import fr.neosoft.todogame.taches.Tache;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -64,7 +65,12 @@ public class Personne {
     @JsonIgnore
     private List<DefiPersonne> defisARealiser = new ArrayList<>();
 
+    @ManyToMany
+    @ToString.Exclude
+    private List<Recompense> recompenses = new ArrayList<>();
+
     public Personne (
+            Long id,
             String nom,
             String prenom,
             String email,
@@ -72,6 +78,7 @@ public class Personne {
             String motDePasse,
             int nbPoints
     ){
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -79,5 +86,4 @@ public class Personne {
         this.motDePasse = motDePasse;
         this.nbPoints = nbPoints;
     }
-
 }

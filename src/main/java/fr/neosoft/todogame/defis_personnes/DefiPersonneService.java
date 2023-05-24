@@ -4,10 +4,10 @@ import fr.neosoft.todogame.defis.Defi;
 import fr.neosoft.todogame.defis.DefiInterface;
 import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneInterface;
+import fr.neosoft.todogame.recompenses.RecompensePersonneInterface;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,17 +18,20 @@ public class DefiPersonneService implements DefiPersonneInterface {
     private final DefiInterface defiInterface;
     private final PersonneInterface personneInterface;
     private final DefiPersonneRepository defiPersonneRepository;
+    private final RecompensePersonneInterface recompensePersonneInterface;
 
     public DefiPersonneService(
             DefiPersonneRepository repository,
             GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface,
             DefiInterface defiInterface,
-            PersonneInterface personneInterface
+            PersonneInterface personneInterface,
+            RecompensePersonneInterface recompensePersonneInterface
     ) {
         this.defiPersonneRepository = repository;
         this.gestionPersonneAuthentifieInterface = gestionPersonneAuthentifieInterface;
         this.defiInterface = defiInterface;
         this.personneInterface = personneInterface;
+        this.recompensePersonneInterface = recompensePersonneInterface;
     }
 
     @Override
@@ -53,6 +56,7 @@ public class DefiPersonneService implements DefiPersonneInterface {
                 defiPersonneRepository.save(defiPersonne);
             }
         }
+        recompensePersonneInterface.majRecompensePersonne(personne);
         personneInterface.save(personne);
     }
 

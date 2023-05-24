@@ -104,11 +104,12 @@ public class PersonneController {
             @ApiResponse(responseCode = "200", description = "Personne trouvée",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = PersonneNiveauDto.class))}),
+            @ApiResponse(responseCode = "403", description = "Aucune personne authentifié"),
             @ApiResponse(responseCode = "404", description = "Personne non trouvée")
     })
     @GetMapping("/niveau")
     public PersonneNiveauDto getInfosNiveauPersonne() {
-        return personneInterface.infosNiveauPersonne(this.gestionPersonneAuthentifieInterface.getPersonneAuthentifie());
+        return personneInterface.infosNiveauPersonne(gestionPersonneAuthentifieInterface.getPersonneAuthentifie());
     }
 
     @Operation(summary = "Récupérer toutes les personnes triées par ordre décroissant de leur nombre de points")

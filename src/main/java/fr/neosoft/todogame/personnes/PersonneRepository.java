@@ -17,8 +17,11 @@ public interface PersonneRepository extends JpaRepository<Personne, Long> {
 
     List<Personne> findAllByOrderByNbPointsDesc();
 
-    @Query("SELECT p FROM Personne p JOIN p.taches t WHERE t.statut = fr.neosoft.todogame.taches.Statut.TERMINE")
+    @Query("SELECT p FROM Personne p JOIN p.taches t WHERE t.statut = Statut.TERMINE")
     List<Personne> findAllByOrderByTachesRealiseesDesc();
 
     Optional<Personne> findByNomUtilisateur(String nomUtilisateur);
+
+    @Query("SELECT COUNT(t.id) FROM Personne p JOIN p.taches t WHERE p = ?1 AND t.statut = Statut.TERMINE")
+	int nbTachesTermine(Personne personne);
 }

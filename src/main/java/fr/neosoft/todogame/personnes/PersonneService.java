@@ -3,6 +3,7 @@ package fr.neosoft.todogame.personnes;
 import fr.neosoft.todogame.auth.roles.Role;
 import fr.neosoft.todogame.auth.roles.RoleRepository;
 import fr.neosoft.todogame.exceptions.NotFoundException;
+import fr.neosoft.todogame.niveaux.Niveau;
 import fr.neosoft.todogame.niveaux.NiveauRepository;
 import fr.neosoft.todogame.utils.CRUDService;
 import fr.neosoft.todogame.auth.dto.RegisterRequestDto;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonneService extends CRUDService<Personne> implements PersonneInterface{
@@ -79,9 +79,9 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
 	 * @param personne
 	 * @return le niveau de la personne
 	 */
-	private Integer getNiveauPersonne(Personne personne) {
+	private Niveau getNiveauPersonne(Personne personne) {
 		Integer nbPointsPersonne = personne.getNbPoints();
-		Integer niveauPersonne = this.niveauRepository.findByNbPoints(nbPointsPersonne);
+		Niveau niveauPersonne = this.niveauRepository.findByNbPoints(nbPointsPersonne);
 
 		return niveauPersonne;
 	}
@@ -97,11 +97,7 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
         Iterable<Personne> listPersonnesParPointsDesc = this.personneRepository.findAllByOrderByNbPointsDesc();
         ArrayList<PersonneNiveauDto> listPersonnesDto = new ArrayList<>();
         for (Personne personne : listPersonnesParPointsDesc) {
-            listPersonnesDto.add(new PersonneNiveauDto(
-                    personne.getNomUtilisateur(),
-                    personne.getNbPoints(),
-                    this.getNiveauPersonne(personne)
-            ));
+            listPersonnesDto.add(this.personneToPersonneNiveauDto(personne));
         }
 
         return listPersonnesDto;
@@ -113,10 +109,15 @@ public class PersonneService extends CRUDService<Personne> implements PersonneIn
         return this.personneRepository.findAllByOrderByTachesRealiseesDesc();
     }
 
-    private PersonneNiveauDto personneToPersonneNiveauDto(Personne personne) {
+	@Override
+	public int nbTachesTermine(Personne personne) {
+		return this.personneRepository.nbTachesTermine(personne);
+	}
+
+	private PersonneNiveauDto personneToPersonneNiveauDto(Personne personne) {
         String nomUtilisateur = personne.getNomUtilisateur();
         Integer nbPoints = personne.getNbPoints();
-        Integer niveauPersonne = this.getNiveauPersonne(personne);
+        Niveau niveauPersonne = this.getNiveauPersonne(personne);
 
         return new PersonneNiveauDto(nomUtilisateur, nbPoints, niveauPersonne);
     }

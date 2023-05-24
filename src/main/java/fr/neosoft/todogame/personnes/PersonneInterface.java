@@ -57,4 +57,11 @@ public interface PersonneInterface extends CRUDInterface<Personne> {
 	 * @return La liste des personnes par nombre décroissant de tâches terminées
 	 */
 	List<Personne> getClassementParRealisations();
+
+	/**
+	 * Renvoie le nombre de tâche terminées de la personne passée en paramètre
+	 * @param personne : personne dont on veut connaitre le nombre de tâche terminées
+	 * @return le nombre de tâche terminées
+	 */
+	int nbTachesTermine(Personne personne);
 }
