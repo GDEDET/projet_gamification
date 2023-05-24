@@ -5,6 +5,9 @@ import fr.neosoft.todogame.personnes.Personne;
 import fr.neosoft.todogame.personnes.PersonneService;
 import fr.neosoft.todogame.utils.CRUDService;
 import fr.neosoft.todogame.utils.GestionPersonneAuthentifieInterface;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,6 +20,9 @@ public class GestionTacheService extends CRUDService<Tache> implements GestionTa
     private final DefiPersonneInterface defiPersonneInterface;
 
     private final GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     public GestionTacheService(TacheRepository tacheRepository, PersonneService personneService, DefiPersonneInterface defiPersonneInterface, GestionPersonneAuthentifieInterface gestionPersonneAuthentifieInterface) {
         super(tacheRepository);
@@ -37,6 +43,16 @@ public class GestionTacheService extends CRUDService<Tache> implements GestionTa
         tache.setStatut(Statut.TERMINE);
         tache.setDateRealisation(new Date());
         this.defiPersonneInterface.incrementerNbTachesTerminees(tache.getPersonne());
+
+        String subject = "Tâche terminée : " + tache.getDescription();
+        String text = "Bravo" + tache.getPersonne().getPrenom() + "Votre tâche est terminée, fécilitation.";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(tache.getPersonne().getEmail());
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message);
+
         return this.save(tache);
     }
 

@@ -5,9 +5,9 @@ services:
       context: .
       target: maven
       args:
-        - PROFIL_ACTIF=${PROFIL_ACTIF:-test}
+        - PROFIL_ACTIF=${PROFIL_ACTIF:-dev}
     environment:
-      - PROFIL_ACTIF=${PROFIL_ACTIF:-test}
+      - PROFIL_ACTIF=${PROFIL_ACTIF:-dev}
     ports:
       - "8090:8090"
     volumes:
